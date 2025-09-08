@@ -28,7 +28,7 @@ export default function Header() {
           </RouterLink>
 
           <nav className="hidden lg:flex items-center gap-6 text-sm">
-            <Link to="#about" className="hover:underline">About</Link>
+            <RouterLink to="#about" className="hover:underline">About</RouterLink>
             <Link to="#events" className="hover:underline">Events</Link>
             <Link to="#benefits" className="hover:underline">Benefits</Link>
             <Link to="#contact" className="hover:underline">Contact</Link>
