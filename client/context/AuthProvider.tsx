@@ -95,6 +95,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setLoading(false);
       return Promise.reject(new Error("Invalid credentials"));
     }
+    if (!found.verified && found.role !== "admin") {
+      setLoading(false);
+      return Promise.reject(new Error("Account not verified by admin yet"));
+    }
     localStorage.setItem(CURRENT_KEY, JSON.stringify(found));
     setUser(found);
     setLoading(false);
@@ -121,7 +125,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setLoading(false);
       return Promise.reject(new Error("User already exists"));
     }
-    const newUser: User = { id: uid(), ...payload } as User;
+    const needsVerification = payload.role !== "admin";
+    const newUser: User = { id: uid(), ...payload, verified: !needsVerification } as User;
     users.push(newUser);
     persistUsers(users);
     localStorage.setItem(CURRENT_KEY, JSON.stringify(newUser));
@@ -135,6 +140,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const getUsers = () => readUsers();
+
+  const verifyUser = (id: string) => {
+    const list = readUsers();
+    const updated = list.map((u) => (u.id === id ? { ...u, verified: true } : u));
+    persistUsers(updated);
+    // update current user if needed
+    const cur = JSON.parse(localStorage.getItem(CURRENT_KEY) || "null");
+    if (cur && cur.id === id) localStorage.setItem(CURRENT_KEY, JSON.stringify({ ...cur, verified: true }));
+  };
+
+  const rejectUser = (id: string) => {
+    const list = readUsers();
+    const filtered = list.filter((u) => u.id !== id);
+    persistUsers(filtered);
+    const cur = JSON.parse(localStorage.getItem(CURRENT_KEY) || "null");
+    if (cur && cur.id === id) localStorage.removeItem(CURRENT_KEY);
+  };
+
+  const deleteUser = (id: string) => {
+    rejectUser(id);
+  };
+
+  const updateUserRole = (id: string, role: Role) => {
+    const list = readUsers();
+    const updated = list.map((u) => (u.id === id ? { ...u, role } : u));
+    persistUsers(updated);
+    const cur = JSON.parse(localStorage.getItem(CURRENT_KEY) || "null");
+    if (cur && cur.id === id) localStorage.setItem(CURRENT_KEY, JSON.stringify({ ...cur, role }));
+  };
+
+  const getPendingUsers = () => readUsers().filter((u) => !u.verified);
 
   return (
     <AuthContext.Provider
