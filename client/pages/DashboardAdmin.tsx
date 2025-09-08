@@ -1,5 +1,4 @@
-import { useAuth } from "@/context/AuthProvider";
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/context/AuthProvider";
 
 export default function DashboardAdmin() {
