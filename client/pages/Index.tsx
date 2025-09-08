@@ -7,7 +7,7 @@ export default function Index() {
 
   return (
     <div className="bg-gradient-to-br from-slate-50 to-white">
-      <section className="hero-gradient text-white py-24">
+      <section className="hero-gradient text-foreground py-24">
         <div className="container mx-auto flex flex-col md:flex-row items-center gap-10">
           <div className="md:w-7/12">
             <h1 className="text-4xl md:text-5xl font-extrabold leading-tight drop-shadow">
