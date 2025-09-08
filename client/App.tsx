@@ -36,6 +36,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/student-login" element={<StudentLogin />} />
               <Route path="/alumni-login" element={<AlumniLogin />} />
+              <Route path="/admin-login" element={<AdminLogin />} />
               <Route path="/register" element={<Register />} />
 
               {/* Protected dashboards */}
