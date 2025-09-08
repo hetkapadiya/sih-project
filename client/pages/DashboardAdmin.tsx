@@ -1,5 +1,6 @@
 import { useAuth } from "@/context/AuthProvider";
 import { useEffect, useMemo, useState } from "react";
+import { useAuth } from "@/context/AuthProvider";
 
 export default function DashboardAdmin() {
   const { user, getUsers, getPendingUsers, verifyUser, rejectUser, deleteUser, updateUserRole } = useAuth();
