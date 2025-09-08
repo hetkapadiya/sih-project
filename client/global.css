@@ -15,16 +15,16 @@
     --card: 0 0% 100%;
     --card-foreground: 218 14% 12%;
 
-    /* Primary brand (deep navy) */
-    --primary: 225 56% 15%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary brand (professional — medium blue) */
+    --primary: 213 78% 62%; /* light blue */
+    --primary-foreground: 218 14% 12%; /* dark text (avoid white) */
 
-    /* Secondary (muted blue) */
+    /* Secondary (muted gray-blue) */
     --secondary: 215 30% 96%;
     --secondary-foreground: 218 14% 12%;
 
     /* Accent (warm gold) */
-    --accent: 45 100% 54%;
+    --accent: 42 95% 57%;
     --accent-foreground: 218 14% 12%;
 
     /* Popover / overlays */
@@ -34,8 +34,9 @@
     --muted: 217 20% 96%;
     --muted-foreground: 215 10% 50%;
 
-    --destructive: 0 78% 56%;
-    --destructive-foreground: 210 40% 98%;
+    /* Destructive uses a lighter tint so dark text is readable */
+    --destructive: 0 82% 78%;
+    --destructive-foreground: 218 14% 12%;
 
     --border: 214 15% 92%;
     --input: 214 15% 92%;
