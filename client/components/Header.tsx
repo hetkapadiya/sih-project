@@ -44,7 +44,7 @@ export default function Header() {
             <>
               <RouterLink to="/student-login" className="hidden sm:inline-block px-3 py-2 rounded-md text-sm bg-secondary text-secondary-foreground">Student</RouterLink>
               <RouterLink to="/alumni-login" className="hidden sm:inline-block px-3 py-2 rounded-md text-sm bg-accent text-accent-foreground">Alumni</RouterLink>
-              <Link to="/admin-login" className="px-3 py-2 rounded-md text-sm bg-card text-card-foreground border">Admin</Link>
+              <RouterLink to="/admin-login" className="px-3 py-2 rounded-md text-sm bg-card text-card-foreground border">Admin</RouterLink>
             </>
           ) : (
             <div className="flex items-center gap-4">
