@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
+import * as React from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/context/AuthProvider";
 
 export default function DashboardAdmin() {
