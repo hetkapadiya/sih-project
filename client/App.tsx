@@ -6,13 +6,18 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from "react";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import StudentLogin from "./pages/StudentLogin";
 import AlumniLogin from "./pages/AlumniLogin";
 import Register from "./pages/Register";
+import DashboardAlumni from "./pages/DashboardAlumni";
+import DashboardStudent from "./pages/DashboardStudent";
+import DashboardAdmin from "./pages/DashboardAdmin";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import PrivateRoute from "./components/PrivateRoute";
 import { AuthProvider } from "./context/AuthProvider";
 
 const queryClient = new QueryClient();
