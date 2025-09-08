@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "@/context/AuthProvider";
 
 interface Props {
-  role: "alumni" | "student";
+  role: "alumni" | "student" | "admin";
 }
 
 export default function LoginCard({ role }: Props) {
@@ -11,7 +11,7 @@ export default function LoginCard({ role }: Props) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const title = role === "alumni" ? "Alumni Sign In" : "Student Portal";
+  const title = role === "alumni" ? "Alumni Sign In" : role === "student" ? "Student Sign In" : "Admin Sign In";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
