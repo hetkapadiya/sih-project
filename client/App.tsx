@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import StudentLogin from "./pages/StudentLogin";
 import AlumniLogin from "./pages/AlumniLogin";
+import Register from "./pages/Register";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
