@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useAuth } from "@/context/AuthProvider";
 
 export default function Register() {
   const [searchParams] = useSearchParams();
   const defaultRole = (searchParams.get("role") as "alumni" | "student" | null) || "alumni";
+
+  const { register } = useAuth();
 
   const [role, setRole] = useState<"alumni" | "student">(defaultRole);
   const [name, setName] = useState("");
@@ -11,6 +14,7 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [batch, setBatch] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     document.title = "Register — AlumniHub";
@@ -19,15 +23,14 @@ export default function Register() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 900));
-    setLoading(false);
-
-    // In a real app you'd POST this data to your server here.
-    alert(`Registered ${role} ${name} (${email}) — Batch: ${batch}`);
-    setName("");
-    setEmail("");
-    setPassword("");
-    setBatch("");
+    setError(null);
+    try {
+      await register({ name, email, password, role, batch });
+    } catch (err: any) {
+      setError(err?.message || "Registration failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -46,6 +49,8 @@ export default function Register() {
             Student
           </label>
         </div>
+
+        {error && <div className="text-sm text-destructive mb-3">{error}</div>}
 
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="md:col-span-2">
