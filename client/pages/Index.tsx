@@ -13,7 +13,7 @@ export default function Index() {
             <h1 className="text-4xl md:text-5xl font-extrabold leading-tight drop-shadow">
               AlumniHub — Where alumni and students connect
             </h1>
-            <p className="mt-4 max-w-xl text-lg text-white/90">
+            <p className="mt-4 max-w-xl text-lg text-muted-foreground">
               Join a thriving community of graduates and current students.
               Discover events, mentoring, career services, and ways to give back
               to your institute.
