@@ -26,7 +26,19 @@ export default function Register() {
     e.preventDefault();
     setLoading(true);
     setError(null);
+
+    // If registering admin, require an existing admin access key (password of an existing admin)
     try {
+      if (role === "admin") {
+        const users = getUsers();
+        const valid = users.find((u) => u.role === "admin" && u.password === adminKey);
+        if (!valid) {
+          setError("Invalid admin access key. Contact site administrator.");
+          setLoading(false);
+          return;
+        }
+      }
+
       await register({ name, email, password, role, batch });
     } catch (err: any) {
       setError(err?.message || "Registration failed");
