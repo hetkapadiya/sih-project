@@ -1,27 +1,37 @@
 import React, { useState } from "react";
+import { useAuth } from "@/context/AuthProvider";
 
 interface Props {
   role: "alumni" | "student";
 }
 
 export default function LoginCard({ role }: Props) {
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const title = role === "alumni" ? "Alumni Sign In" : "Student Portal";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 800));
-    setLoading(false);
-    alert(`${title} — Logged in as ${email}`);
+    setError(null);
+    try {
+      await login(email, password);
+    } catch (err: any) {
+      setError(err?.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="max-w-md w-full bg-card rounded-lg shadow-md p-6">
       <h2 className="text-2xl font-semibold mb-2">{title}</h2>
       <p className="text-sm text-muted-foreground mb-4">Use your {role === "alumni" ? "alumni" : "student"} credentials to access the portal.</p>
+
+      {error && <div className="text-sm text-destructive mb-3">{error}</div>}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <label className="block">
