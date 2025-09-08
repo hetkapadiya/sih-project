@@ -8,12 +8,12 @@
   /* Design tokens — use HSL values so tailwind can consume them via hsl(var(--...)) */
   :root {
     /* Background / text */
-    --background: 218 40% 98%;
-    --foreground: 218 14% 12%;
+    --background: 216 30% 97%; /* page background - light neutral */
+    --foreground: 217 18% 14%; /* main text - dark gray */
 
     /* Surface */
-    --card: 0 0% 100%;
-    --card-foreground: 218 14% 12%;
+    --card: 0 0% 100%; /* white cards */
+    --card-foreground: 217 18% 14%;
 
     /* Primary brand (professional — medium blue) */
     --primary: 213 78% 62%; /* light blue */
