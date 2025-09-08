@@ -78,9 +78,15 @@ export default function Header() {
               </Link>
               <Link
                 to="/alumni-login"
-                className="px-4 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:opacity-95"
+                className="hidden sm:inline-block px-4 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:opacity-95"
               >
                 Alumni Login
+              </Link>
+              <Link
+                to="/admin-login"
+                className="px-4 py-2 rounded-md text-sm font-medium bg-secondary text-secondary-foreground hover:opacity-95"
+              >
+                Admin Login
               </Link>
             </>
           )}
