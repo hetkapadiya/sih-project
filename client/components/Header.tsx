@@ -31,6 +31,7 @@ export default function Header() {
 
         <div className="flex items-center gap-3">
           <Link to="/student-login" className="hidden sm:inline-block px-4 py-2 rounded-md text-sm font-medium bg-white border border-transparent hover:bg-slate-50">Student Portal</Link>
+          <Link to="/register" className="hidden sm:inline-block px-4 py-2 rounded-md text-sm font-medium bg-white border border-transparent hover:bg-slate-50">Register</Link>
           <Link to="/alumni-login" className="px-4 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:opacity-95">Alumni Login</Link>
         </div>
       </div>
