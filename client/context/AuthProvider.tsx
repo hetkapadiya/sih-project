@@ -10,6 +10,7 @@ export interface User {
   password: string; // NOTE: for demo only — do NOT use plain text in production
   role: Role;
   batch?: string;
+  verified?: boolean;
 }
 
 interface AuthContextValue {
@@ -19,6 +20,11 @@ interface AuthContextValue {
   logout: () => void;
   register: (payload: Omit<User, "id">) => Promise<User>;
   getUsers: () => User[];
+  verifyUser: (id: string) => void;
+  rejectUser: (id: string) => void;
+  deleteUser: (id: string) => void;
+  updateUserRole: (id: string, role: Role) => void;
+  getPendingUsers: () => User[];
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
