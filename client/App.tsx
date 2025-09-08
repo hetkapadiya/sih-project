@@ -13,6 +13,7 @@ import AlumniLogin from "./pages/AlumniLogin";
 import Register from "./pages/Register";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import { AuthProvider } from "./context/AuthProvider";
 
 const queryClient = new QueryClient();
 
@@ -22,18 +23,26 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Header />
-        <main className="min-h-[70vh]">
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/student-login" element={<StudentLogin />} />
-            <Route path="/alumni-login" element={<AlumniLogin />} />
-            <Route path="/register" element={<Register />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </main>
-        <Footer />
+        <AuthProvider>
+          <Header />
+          <main className="min-h-[70vh]">
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/student-login" element={<StudentLogin />} />
+              <Route path="/alumni-login" element={<AlumniLogin />} />
+              <Route path="/register" element={<Register />} />
+
+              {/* Protected dashboards */}
+              <Route path="/dashboard/alumni" element={<PrivateRoute role="alumni"><React.Suspense fallback={<div/>}><DashboardAlumni /></React.Suspense></PrivateRoute>} />
+              <Route path="/dashboard/student" element={<PrivateRoute role="student"><React.Suspense fallback={<div/>}><DashboardStudent /></React.Suspense></PrivateRoute>} />
+              <Route path="/admin/dashboard" element={<PrivateRoute role="admin"><React.Suspense fallback={<div/>}><DashboardAdmin /></React.Suspense></PrivateRoute>} />
+
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+          <Footer />
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
