@@ -1,5 +1,7 @@
 import { useAuth } from "@/context/AuthProvider";
 
+import { useAuth } from "@/context/AuthProvider";
+
 export default function DashboardAlumni() {
   const { user } = useAuth();
   return (
