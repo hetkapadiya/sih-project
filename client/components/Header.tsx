@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "@/context/AuthProvider";
 
 const Logo = () => (
   <div className="flex items-center gap-3">
@@ -15,6 +16,8 @@ const Logo = () => (
 );
 
 export default function Header() {
+  const { user, logout } = useAuth();
+
   return (
     <header className="w-full bg-card/80 backdrop-blur-sm">
       <div className="container mx-auto flex items-center justify-between py-4">
@@ -30,9 +33,25 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link to="/student-login" className="hidden sm:inline-block px-4 py-2 rounded-md text-sm font-medium bg-white border border-transparent hover:bg-slate-50">Student Portal</Link>
-          <Link to="/register" className="hidden sm:inline-block px-4 py-2 rounded-md text-sm font-medium bg-white border border-transparent hover:bg-slate-50">Register</Link>
-          <Link to="/alumni-login" className="px-4 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:opacity-95">Alumni Login</Link>
+          {!user && (
+            <>
+              <Link to="/student-login" className="hidden sm:inline-block px-4 py-2 rounded-md text-sm font-medium bg-white border border-transparent hover:bg-slate-50">Student Portal</Link>
+              <Link to="/register" className="hidden sm:inline-block px-4 py-2 rounded-md text-sm font-medium bg-white border border-transparent hover:bg-slate-50">Register</Link>
+              <Link to="/alumni-login" className="px-4 py-2 rounded-md text-sm font-medium bg-primary text-primary-foreground hover:opacity-95">Alumni Login</Link>
+            </>
+          )}
+
+          {user && (
+            <div className="flex items-center gap-4">
+              <div className="text-sm">
+                <div className="font-medium">{user.name}</div>
+                <div className="text-xs text-muted-foreground">{user.role.toUpperCase()}</div>
+              </div>
+
+              <Link to={user.role === "admin" ? "/admin/dashboard" : user.role === "student" ? "/dashboard/student" : "/dashboard/alumni"} className="px-3 py-2 rounded-md text-sm bg-white border">Dashboard</Link>
+              <button onClick={logout} className="px-3 py-2 rounded-md text-sm bg-destructive text-destructive-foreground">Logout</button>
+            </div>
+          )}
         </div>
       </div>
     </header>
