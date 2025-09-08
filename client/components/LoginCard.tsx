@@ -30,8 +30,7 @@ export default function LoginCard({ role }: Props) {
     <div className="max-w-md w-full bg-card rounded-lg shadow-md p-6">
       <h2 className="text-2xl font-semibold mb-2">{title}</h2>
       <p className="text-sm text-muted-foreground mb-4">
-        Use your {role === "alumni" ? "alumni" : "student"} credentials to
-        access the portal.
+        Use your {role === "alumni" ? "alumni" : role === "student" ? "student" : "admin"} credentials to access the portal.
       </p>
 
       {error && <div className="text-sm text-destructive mb-3">{error}</div>}
