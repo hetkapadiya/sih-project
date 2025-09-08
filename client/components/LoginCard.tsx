@@ -52,7 +52,10 @@ export default function LoginCard({ role }: Props) {
           <label className="text-sm text-muted-foreground">
             <input type="checkbox" className="mr-2" /> Remember me
           </label>
-          <a href="#" className="text-sm text-primary-foreground">Forgot?</a>
+          <div className="flex items-center gap-3">
+            <a href="#" className="text-sm text-primary-foreground">Forgot?</a>
+            <a href={`/register?role=${role}`} className="text-sm text-muted-foreground hover:text-primary-foreground">New? Register</a>
+          </div>
         </div>
 
         <button
