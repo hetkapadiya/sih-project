@@ -7,13 +7,14 @@ export default function Register() {
   const defaultRole =
     (searchParams.get("role") as "alumni" | "student" | null) || "alumni";
 
-  const { register } = useAuth();
+  const { register, getUsers } = useAuth();
 
-  const [role, setRole] = useState<"alumni" | "student">(defaultRole);
+  const [role, setRole] = useState<"alumni" | "student" | "admin">(defaultRole as any);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [batch, setBatch] = useState("");
+  const [adminKey, setAdminKey] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
