@@ -35,23 +35,17 @@ export default function Index() {
             </div>
 
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="bg-white/10 p-4 rounded-md">
+              <div className="bg-primary/10 p-4 rounded-md">
                 <h4 className="font-semibold">Events</h4>
-                <p className="text-sm text-white/90 mt-1">
-                  Reunions, webinars, and local chapter meetups.
-                </p>
+                <p className="text-sm text-foreground mt-1">Reunions, webinars, and local chapter meetups.</p>
               </div>
-              <div className="bg-white/10 p-4 rounded-md">
+              <div className="bg-primary/10 p-4 rounded-md">
                 <h4 className="font-semibold">Mentorship</h4>
-                <p className="text-sm text-white/90 mt-1">
-                  Connect with alumni mentors across industries.
-                </p>
+                <p className="text-sm text-foreground mt-1">Connect with alumni mentors across industries.</p>
               </div>
-              <div className="bg-white/10 p-4 rounded-md">
+              <div className="bg-primary/10 p-4 rounded-md">
                 <h4 className="font-semibold">Giving</h4>
-                <p className="text-sm text-white/90 mt-1">
-                  Support scholarships and campus projects.
-                </p>
+                <p className="text-sm text-foreground mt-1">Support scholarships and campus projects.</p>
               </div>
             </div>
           </div>
