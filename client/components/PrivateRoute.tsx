@@ -3,7 +3,13 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthProvider";
 import type { Role } from "@/context/AuthProvider";
 
-export default function PrivateRoute({ children, role }: { children: React.ReactElement; role?: Role | Role[] }) {
+export default function PrivateRoute({
+  children,
+  role,
+}: {
+  children: React.ReactElement;
+  role?: Role | Role[];
+}) {
   const { user, loading } = useAuth();
 
   if (loading) return <div className="p-8">Loading...</div>;

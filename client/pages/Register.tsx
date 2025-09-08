@@ -4,7 +4,8 @@ import { useAuth } from "@/context/AuthProvider";
 
 export default function Register() {
   const [searchParams] = useSearchParams();
-  const defaultRole = (searchParams.get("role") as "alumni" | "student" | null) || "alumni";
+  const defaultRole =
+    (searchParams.get("role") as "alumni" | "student" | null) || "alumni";
 
   const { register } = useAuth();
 
@@ -37,53 +38,109 @@ export default function Register() {
     <div className="container mx-auto py-16">
       <div className="max-w-3xl mx-auto bg-card rounded-xl shadow-lg p-8">
         <h1 className="text-2xl font-bold mb-2">Create a new account</h1>
-        <p className="text-sm text-muted-foreground mb-6">Register as a student or an alumnus to join the community.</p>
+        <p className="text-sm text-muted-foreground mb-6">
+          Register as a student or an alumnus to join the community.
+        </p>
 
         <div className="mb-6">
           <label className="inline-flex items-center mr-6">
-            <input type="radio" name="role" value="alumni" checked={role === "alumni"} onChange={() => setRole("alumni")} className="mr-2" />
+            <input
+              type="radio"
+              name="role"
+              value="alumni"
+              checked={role === "alumni"}
+              onChange={() => setRole("alumni")}
+              className="mr-2"
+            />
             Alumni
           </label>
           <label className="inline-flex items-center">
-            <input type="radio" name="role" value="student" checked={role === "student"} onChange={() => setRole("student")} className="mr-2" />
+            <input
+              type="radio"
+              name="role"
+              value="student"
+              checked={role === "student"}
+              onChange={() => setRole("student")}
+              className="mr-2"
+            />
             Student
           </label>
         </div>
 
         {error && <div className="text-sm text-destructive mb-3">{error}</div>}
 
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 md:grid-cols-2 gap-4"
+        >
           <div className="md:col-span-2">
             <label className="block">
               <span className="text-sm text-muted-foreground">Full name</span>
-              <input required value={name} onChange={(e) => setName(e.target.value)} className="mt-1 block w-full rounded-md border px-3 py-2 bg-white text-foreground" placeholder="Your full name" />
+              <input
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="mt-1 block w-full rounded-md border px-3 py-2 bg-white text-foreground"
+                placeholder="Your full name"
+              />
             </label>
           </div>
 
           <div>
             <label className="block">
               <span className="text-sm text-muted-foreground">Email</span>
-              <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 block w-full rounded-md border px-3 py-2 bg-white text-foreground" placeholder="you@domain.edu" />
+              <input
+                required
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1 block w-full rounded-md border px-3 py-2 bg-white text-foreground"
+                placeholder="you@domain.edu"
+              />
             </label>
           </div>
 
           <div>
             <label className="block">
               <span className="text-sm text-muted-foreground">Password</span>
-              <input required type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1 block w-full rounded-md border px-3 py-2 bg-white text-foreground" placeholder="Choose a strong password" />
+              <input
+                required
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-1 block w-full rounded-md border px-3 py-2 bg-white text-foreground"
+                placeholder="Choose a strong password"
+              />
             </label>
           </div>
 
           <div>
             <label className="block">
-              <span className="text-sm text-muted-foreground">Batch / Grad Year</span>
-              <input value={batch} onChange={(e) => setBatch(e.target.value)} className="mt-1 block w-full rounded-md border px-3 py-2 bg-white text-foreground" placeholder="e.g. 2015" />
+              <span className="text-sm text-muted-foreground">
+                Batch / Grad Year
+              </span>
+              <input
+                value={batch}
+                onChange={(e) => setBatch(e.target.value)}
+                className="mt-1 block w-full rounded-md border px-3 py-2 bg-white text-foreground"
+                placeholder="e.g. 2015"
+              />
             </label>
           </div>
 
           <div className="md:col-span-2 flex items-center justify-between">
-            <div className="text-sm text-muted-foreground">By registering you agree to our terms and privacy policy.</div>
-            <button type="submit" disabled={loading} className="px-6 py-2 rounded-md bg-primary text-primary-foreground font-medium">{loading ? "Registering..." : `Register as ${role === "alumni" ? "Alumni" : "Student"}`}</button>
+            <div className="text-sm text-muted-foreground">
+              By registering you agree to our terms and privacy policy.
+            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-6 py-2 rounded-md bg-primary text-primary-foreground font-medium"
+            >
+              {loading
+                ? "Registering..."
+                : `Register as ${role === "alumni" ? "Alumni" : "Student"}`}
+            </button>
           </div>
         </form>
       </div>

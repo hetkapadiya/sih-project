@@ -29,7 +29,10 @@ export default function LoginCard({ role }: Props) {
   return (
     <div className="max-w-md w-full bg-card rounded-lg shadow-md p-6">
       <h2 className="text-2xl font-semibold mb-2">{title}</h2>
-      <p className="text-sm text-muted-foreground mb-4">Use your {role === "alumni" ? "alumni" : "student"} credentials to access the portal.</p>
+      <p className="text-sm text-muted-foreground mb-4">
+        Use your {role === "alumni" ? "alumni" : "student"} credentials to
+        access the portal.
+      </p>
 
       {error && <div className="text-sm text-destructive mb-3">{error}</div>}
 
@@ -63,8 +66,15 @@ export default function LoginCard({ role }: Props) {
             <input type="checkbox" className="mr-2" /> Remember me
           </label>
           <div className="flex items-center gap-3">
-            <a href="#" className="text-sm text-primary-foreground">Forgot?</a>
-            <a href={`/register?role=${role}`} className="text-sm text-muted-foreground hover:text-primary-foreground">New? Register</a>
+            <a href="#" className="text-sm text-primary-foreground">
+              Forgot?
+            </a>
+            <a
+              href={`/register?role=${role}`}
+              className="text-sm text-muted-foreground hover:text-primary-foreground"
+            >
+              New? Register
+            </a>
           </div>
         </div>
 

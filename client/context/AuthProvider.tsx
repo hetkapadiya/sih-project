@@ -44,7 +44,9 @@ function seedAdminIfNeeded() {
   }
 }
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -62,7 +64,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(false);
   }, []);
 
-  const persistUsers = (users: User[]) => localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  const persistUsers = (users: User[]) =>
+    localStorage.setItem(USERS_KEY, JSON.stringify(users));
   const readUsers = (): User[] => {
     const raw = localStorage.getItem(USERS_KEY);
     if (!raw) return [];
@@ -77,7 +80,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(true);
     await new Promise((r) => setTimeout(r, 500));
     const users = readUsers();
-    const found = users.find((u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
+    const found = users.find(
+      (u) =>
+        u.email.toLowerCase() === email.toLowerCase() &&
+        u.password === password,
+    );
     if (!found) {
       setLoading(false);
       return Promise.reject(new Error("Invalid credentials"));
@@ -102,7 +109,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(true);
     await new Promise((r) => setTimeout(r, 700));
     const users = readUsers();
-    if (users.find((u) => u.email.toLowerCase() === payload.email.toLowerCase())) {
+    if (
+      users.find((u) => u.email.toLowerCase() === payload.email.toLowerCase())
+    ) {
       setLoading(false);
       return Promise.reject(new Error("User already exists"));
     }
@@ -122,7 +131,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const getUsers = () => readUsers();
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout, register, getUsers }}>
+    <AuthContext.Provider
+      value={{ user, loading, login, logout, register, getUsers }}
+    >
       {children}
     </AuthContext.Provider>
   );

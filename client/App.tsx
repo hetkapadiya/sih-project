@@ -38,9 +38,36 @@ const App = () => (
               <Route path="/register" element={<Register />} />
 
               {/* Protected dashboards */}
-              <Route path="/dashboard/alumni" element={<PrivateRoute role="alumni"><React.Suspense fallback={<div/>}><DashboardAlumni /></React.Suspense></PrivateRoute>} />
-              <Route path="/dashboard/student" element={<PrivateRoute role="student"><React.Suspense fallback={<div/>}><DashboardStudent /></React.Suspense></PrivateRoute>} />
-              <Route path="/admin/dashboard" element={<PrivateRoute role="admin"><React.Suspense fallback={<div/>}><DashboardAdmin /></React.Suspense></PrivateRoute>} />
+              <Route
+                path="/dashboard/alumni"
+                element={
+                  <PrivateRoute role="alumni">
+                    <React.Suspense fallback={<div />}>
+                      <DashboardAlumni />
+                    </React.Suspense>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/dashboard/student"
+                element={
+                  <PrivateRoute role="student">
+                    <React.Suspense fallback={<div />}>
+                      <DashboardStudent />
+                    </React.Suspense>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <PrivateRoute role="admin">
+                    <React.Suspense fallback={<div />}>
+                      <DashboardAdmin />
+                    </React.Suspense>
+                  </PrivateRoute>
+                }
+              />
 
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
