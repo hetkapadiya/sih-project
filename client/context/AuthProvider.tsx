@@ -45,6 +45,7 @@ function seedAdminIfNeeded() {
       email: "admin@institute.edu",
       password: "admin123",
       role: "admin",
+      verified: true,
     };
     localStorage.setItem(USERS_KEY, JSON.stringify([admin]));
   }
