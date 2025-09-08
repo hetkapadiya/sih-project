@@ -7,46 +7,41 @@
 @layer base {
   /* Design tokens — use HSL values so tailwind can consume them via hsl(var(--...)) */
   :root {
-    /* Background / text */
-    --background: 216 30% 97%; /* page background - light neutral */
-    --foreground: 217 18% 14%; /* main text - dark gray */
+    /* IITB-inspired palette (navy + maroon + gold accents) */
+    --background: 217 22% 96%; /* very light neutral */
+    --foreground: 220 15% 12%; /* dark text */
 
     /* Surface */
-    --card: 0 0% 100%; /* white cards */
-    --card-foreground: 217 18% 14%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 15% 12%;
 
-    /* Primary brand (professional — medium blue) */
-    --primary: 213 78% 62%; /* light blue */
-    --primary-foreground: 218 14% 12%; /* dark text (avoid white) */
+    /* Deep navy primary */
+    --primary: 216 40% 18%; /* dark navy */
+    --primary-foreground: 0 0% 100%; /* white for contrast on dark primary */
 
-    /* Secondary (muted gray-blue) */
-    --secondary: 215 30% 96%;
-    --secondary-foreground: 218 14% 12%;
+    /* Maroon accent */
+    --accent: 356 65% 28%;
+    --accent-foreground: 0 0% 100%;
 
-    /* Accent (warm gold) */
-    --accent: 42 95% 57%;
-    --accent-foreground: 218 14% 12%;
+    /* Gold secondary */
+    --secondary: 45 95% 55%;
+    --secondary-foreground: 220 15% 12%;
 
-    /* Popover / overlays */
-    --popover: 0 0% 100%;
-    --popover-foreground: 218 14% 12%;
+    --muted: 220 10% 95%;
+    --muted-foreground: 215 10% 45%;
 
-    --muted: 217 20% 96%;
-    --muted-foreground: 215 10% 50%;
-
-    /* Destructive uses a lighter tint so dark text is readable */
-    --destructive: 0 82% 78%;
-    --destructive-foreground: 218 14% 12%;
+    --destructive: 0 78% 56%;
+    --destructive-foreground: 0 0% 100%;
 
     --border: 214 15% 92%;
     --input: 214 15% 92%;
-    --ring: 225 56% 15%;
+    --ring: 216 40% 18%;
 
     --radius: 0.5rem;
 
     /* Sidebar variants */
-    --sidebar-background: 218 14% 98%;
-    --sidebar-foreground: 218 14% 12%;
+    --sidebar-background: 217 12% 98%;
+    --sidebar-foreground: 220 15% 12%;
     --sidebar-primary: 224 60% 20%;
     --sidebar-primary-foreground: 0 0% 100%;
   }
