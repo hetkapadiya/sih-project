@@ -55,7 +55,7 @@ export default function Register() {
             />
             Alumni
           </label>
-          <label className="inline-flex items-center">
+          <label className="inline-flex items-center mr-6">
             <input
               type="radio"
               name="role"
@@ -65,6 +65,17 @@ export default function Register() {
               className="mr-2"
             />
             Student
+          </label>
+          <label className="inline-flex items-center">
+            <input
+              type="radio"
+              name="role"
+              value="admin"
+              checked={role === "admin"}
+              onChange={() => setRole("admin")}
+              className="mr-2"
+            />
+            Admin
           </label>
         </div>
 
