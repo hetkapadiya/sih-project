@@ -19,9 +19,17 @@
     --primary: 225 56% 15%;
     --primary-foreground: 210 40% 98%;
 
+    /* Secondary (muted blue) */
+    --secondary: 215 30% 96%;
+    --secondary-foreground: 218 14% 12%;
+
     /* Accent (warm gold) */
     --accent: 45 100% 54%;
     --accent-foreground: 218 14% 12%;
+
+    /* Popover / overlays */
+    --popover: 0 0% 100%;
+    --popover-foreground: 218 14% 12%;
 
     --muted: 217 20% 96%;
     --muted-foreground: 215 10% 50%;
@@ -38,6 +46,8 @@
     /* Sidebar variants */
     --sidebar-background: 218 14% 98%;
     --sidebar-foreground: 218 14% 12%;
+    --sidebar-primary: 224 60% 20%;
+    --sidebar-primary-foreground: 0 0% 100%;
   }
 
   .dark {
@@ -50,8 +60,14 @@
     --primary: 215 60% 30%;
     --primary-foreground: 210 40% 98%;
 
+    --secondary: 215 28% 14%;
+    --secondary-foreground: 210 40% 98%;
+
     --accent: 42 100% 50%;
     --accent-foreground: 210 40% 98%;
+
+    --popover: 217 12% 12%;
+    --popover-foreground: 210 40% 98%;
 
     --border: 216 14% 16%;
     --input: 216 14% 16%;
@@ -84,5 +100,5 @@
 
 /* Utilities for the hero background */
 .hero-gradient {
-  background-image: linear-gradient(180deg, rgba(15,23,42,0.04) 0%, rgba(255,255,255,0) 60%), linear-gradient(135deg, hsl(var(--primary)) 0%, rgba(99,102,241,0.8) 100%);
+  background-image: linear-gradient(180deg, rgba(15,23,42,0.04) 0%, rgba(255,255,255,0) 60%), linear-gradient(135deg, hsl(var(--primary)) 0%, rgba(99,102,241,0.85) 100%);
 }
