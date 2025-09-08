@@ -66,15 +66,12 @@ export default function LoginCard({ role }: Props) {
             <input type="checkbox" className="mr-2" /> Remember me
           </label>
           <div className="flex items-center gap-3">
-            <a href="#" className="text-sm text-primary-foreground">
-              Forgot?
-            </a>
-            <a
-              href={`/register?role=${role}`}
-              className="text-sm text-muted-foreground hover:text-primary-foreground"
-            >
-              New? Register
-            </a>
+            <a href="#" className="text-sm text-primary-foreground">Forgot?</a>
+            {role !== "admin" ? (
+              <a href={`/register?role=${role}`} className="text-sm text-muted-foreground hover:text-primary-foreground">New? Register</a>
+            ) : (
+              <a href="/admin/dashboard" className="text-sm text-muted-foreground hover:text-primary-foreground">Admin Dashboard</a>
+            )}
           </div>
         </div>
 
