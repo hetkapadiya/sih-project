@@ -23,9 +23,9 @@ export default function Header() {
     <header className="w-full shadow-sm bg-primary text-primary-foreground">
       <div className="container mx-auto py-2 flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link to="/" className="flex items-center">
+          <RouterLink to="/" className="flex items-center">
             <Logo />
-          </Link>
+          </RouterLink>
 
           <nav className="hidden lg:flex items-center gap-6 text-sm">
             <Link to="#about" className="hover:underline">About</Link>
