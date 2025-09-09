@@ -11,6 +11,12 @@ export interface User {
   role: Role;
   batch?: string;
   verified?: boolean;
+  location?: {
+    city: string;
+    country: string;
+    lat: number;
+    lng: number;
+  };
 }
 
 interface AuthContextValue {
@@ -55,7 +61,54 @@ function seedAdminIfNeeded() {
       role: "faculty",
       verified: true,
     };
-    localStorage.setItem(USERS_KEY, JSON.stringify([admin, faculty]));
+    const alumniSamples: User[] = [
+      {
+        id: uid(),
+        name: "Aarav Patel",
+        email: "aarav.patel@example.com",
+        password: "alumni123",
+        role: "alumni",
+        verified: true,
+        location: { city: "Mumbai", country: "India", lat: 19.076, lng: 72.8777 },
+      },
+      {
+        id: uid(),
+        name: "Olivia Smith",
+        email: "olivia.smith@example.com",
+        password: "alumni123",
+        role: "alumni",
+        verified: true,
+        location: { city: "London", country: "United Kingdom", lat: 51.5074, lng: -0.1278 },
+      },
+      {
+        id: uid(),
+        name: "Liam Johnson",
+        email: "liam.johnson@example.com",
+        password: "alumni123",
+        role: "alumni",
+        verified: true,
+        location: { city: "New York", country: "USA", lat: 40.7128, lng: -74.006 },
+      },
+      {
+        id: uid(),
+        name: "Sakura Tanaka",
+        email: "sakura.tanaka@example.com",
+        password: "alumni123",
+        role: "alumni",
+        verified: true,
+        location: { city: "Tokyo", country: "Japan", lat: 35.6762, lng: 139.6503 },
+      },
+      {
+        id: uid(),
+        name: "Noah Williams",
+        email: "noah.williams@example.com",
+        password: "alumni123",
+        role: "alumni",
+        verified: true,
+        location: { city: "Sydney", country: "Australia", lat: -33.8688, lng: 151.2093 },
+      },
+    ];
+    localStorage.setItem(USERS_KEY, JSON.stringify([admin, faculty, ...alumniSamples]));
   } else {
     try {
       const list = JSON.parse(raw) as User[];
