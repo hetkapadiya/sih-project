@@ -10,7 +10,13 @@ export default function QuickLinks() {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
       {links.map((l) => (
-        <a key={l.title} href={l.href} className="p-3 rounded-md bg-card border hover:shadow-sm text-sm text-foreground text-center">{l.title}</a>
+        <a
+          key={l.title}
+          href={l.href}
+          className="p-3 rounded-md bg-card border hover:shadow-sm text-sm text-foreground text-center"
+        >
+          {l.title}
+        </a>
       ))}
     </div>
   );
