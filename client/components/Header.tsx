@@ -31,6 +31,7 @@ export default function Header() {
             <RouterLink to="#about" className="hover:underline">About</RouterLink>
             <RouterLink to="#events" className="hover:underline">Events</RouterLink>
             <RouterLink to="#benefits" className="hover:underline">Benefits</RouterLink>
+            <RouterLink to="/gallery" className="hover:underline">Gallery</RouterLink>
             <RouterLink to="#contact" className="hover:underline">Contact</RouterLink>
           </nav>
         </div>
