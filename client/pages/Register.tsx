@@ -78,6 +78,17 @@ export default function Register() {
             />
             Student
           </label>
+          <label className="inline-flex items-center mr-6">
+            <input
+              type="radio"
+              name="role"
+              value="faculty"
+              checked={role === "faculty"}
+              onChange={() => setRole("faculty")}
+              className="mr-2"
+            />
+            Faculty
+          </label>
           <label className="inline-flex items-center">
             <input
               type="radio"
