@@ -11,10 +11,12 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import StudentLogin from "./pages/StudentLogin";
 import AlumniLogin from "./pages/AlumniLogin";
+import FacultyLogin from "./pages/FacultyLogin";
 import Register from "./pages/Register";
 import AdminLogin from "./pages/AdminLogin";
 import DashboardAlumni from "./pages/DashboardAlumni";
 import DashboardStudent from "./pages/DashboardStudent";
+import DashboardFaculty from "./pages/DashboardFaculty";
 import DashboardAdmin from "./pages/DashboardAdmin";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -36,6 +38,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/student-login" element={<StudentLogin />} />
               <Route path="/alumni-login" element={<AlumniLogin />} />
+              <Route path="/faculty-login" element={<FacultyLogin />} />
               <Route path="/admin-login" element={<AdminLogin />} />
               <Route path="/register" element={<Register />} />
 
@@ -56,6 +59,16 @@ const App = () => (
                   <PrivateRoute role="student">
                     <React.Suspense fallback={<div />}>
                       <DashboardStudent />
+                    </React.Suspense>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/dashboard/faculty"
+                element={
+                  <PrivateRoute role="faculty">
+                    <React.Suspense fallback={<div />}>
+                      <DashboardFaculty />
                     </React.Suspense>
                   </PrivateRoute>
                 }
