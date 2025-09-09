@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import StudentLogin from "./pages/StudentLogin";
 import AlumniLogin from "./pages/AlumniLogin";
 import FacultyLogin from "./pages/FacultyLogin";
+import Gallery from "./pages/Gallery";
 import Register from "./pages/Register";
 import AdminLogin from "./pages/AdminLogin";
 import DashboardAlumni from "./pages/DashboardAlumni";
