@@ -105,9 +105,9 @@ export default function AlumniDensityMap() {
         }}
       >
         <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/World_map_-_low_resolution.svg/1280px-World_map_-_low_resolution.svg.png"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/World_map_-_low_resolution.svg/2048px-World_map_-_low_resolution.svg.png"
           alt="World map"
-          className="absolute inset-0 w-full h-full object-cover opacity-90 rounded-md"
+          className="absolute inset-0 w-full h-full object-cover opacity-95 rounded-md brightness-105 contrast-105"
         />
         {grouped.map((p, i) => {
           const pos = project(p.lat, p.lng);
@@ -120,10 +120,9 @@ export default function AlumniDensityMap() {
             >
               <div
                 title={`${p.name} — ${p.count} alumni`}
-                className="-translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/80 ring-2 ring-white/70 shadow"
-                style={{ width: r, height: r }}
-              />
-              <div className="-translate-x-1/2 translate-y-1 text-[10px] text-white font-semibold drop-shadow text-center">
+                className="-translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/85 ring-2 ring-white/80 shadow flex items-center justify-center text-white font-semibold"
+                style={{ width: r, height: r, fontSize: Math.max(10, Math.min(14, Math.floor(r / 1.5))) }}
+              >
                 {p.count}
               </div>
             </div>
