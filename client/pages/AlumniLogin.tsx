@@ -2,10 +2,11 @@ import LoginCard from "../components/LoginCard";
 
 export default function AlumniLogin() {
   return (
-    <div className="container mx-auto py-16">
+    <div className="container mx-auto py-16 bg-[radial-gradient(ellipse_at_top,_rgba(118,25,31,0.08),transparent_60%)]">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         <div>
           <h1 className="text-4xl font-bold mb-4">Alumni Login</h1>
+          <div className="text-sm text-muted-foreground">Enhanced alumni theme background</div>
           <p className="text-muted-foreground mb-6">
             Welcome back. Access alumni benefits, events, mentoring
             opportunities, and update your profile.
