@@ -37,12 +37,12 @@ export default function Header() {
 
         <div className="flex items-center gap-3">
           <div className="hidden md:block">
-            <input placeholder="Search" className="flex px-3 py-2 rounded-md border w-56 text-sm leading-5 font-normal text-[#D0021B] border-[rgb(232,234,238)]" />
+            <input placeholder="Search" className="flex px-3 py-2 rounded-md border w-56 text-sm leading-5 font-normal text-black border-[rgb(232,234,238)]" />
           </div>
 
           {!user ? (
             <>
-              <RouterLink to="/student-login" className="hidden sm:inline-block px-3 py-2 rounded-md text-sm bg-secondary text-secondary-foreground">Student</RouterLink>
+              <RouterLink to="/student-login" className="hidden sm:inline-block px-3 py-2 rounded-md text-sm bg-[rgb(249,195,31)] text-[rgb(26,29,35)]">Student</RouterLink>
               <RouterLink to="/alumni-login" className="hidden sm:inline-block px-3 py-2 rounded-md text-sm bg-accent text-accent-foreground">Alumni</RouterLink>
               <RouterLink to="/admin-login" className="px-3 py-2 rounded-md text-sm bg-card text-card-foreground border">Admin</RouterLink>
             </>
