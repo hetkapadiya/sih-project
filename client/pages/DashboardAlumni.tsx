@@ -4,7 +4,7 @@ import { useAuth } from "@/context/AuthProvider";
 export default function DashboardAlumni() {
   const { user } = useAuth();
   return (
-    <div className="container mx-auto py-12">
+    <div className="container mx-auto py-12 bg-[radial-gradient(ellipse_at_top,_rgba(118,25,31,0.06),transparent_60%)]">
       <h1 className="text-2xl font-bold">Welcome, {user?.name} (Alumnus)</h1>
       <p className="text-muted-foreground mt-2">Access alumni resources, events, and mentorship tools.</p>
 
