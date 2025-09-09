@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "@/context/AuthProvider";
 
 interface Props {
-  role: "alumni" | "student" | "admin";
+  role: "alumni" | "student" | "admin" | "faculty";
 }
 
 export default function LoginCard({ role }: Props) {
