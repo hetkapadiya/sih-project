@@ -32,7 +32,6 @@ export default function Header() {
             <RouterLink to="#events" className="hover:underline">Events</RouterLink>
             <RouterLink to="#benefits" className="hover:underline">Benefits</RouterLink>
             <RouterLink to="/gallery" className="hover:underline">Gallery</RouterLink>
-            <RouterLink to="#contact" className="hover:underline">Contact</RouterLink>
           </nav>
         </div>
 
@@ -45,8 +44,8 @@ export default function Header() {
             <>
               <RouterLink to="/student-login" className="hidden sm:inline-block px-3 py-2 rounded-md text-sm bg-[rgb(249,195,31)] text-[rgb(26,29,35)]">Student</RouterLink>
               <RouterLink to="/alumni-login" className="hidden sm:inline-block px-3 py-2 rounded-md text-sm bg-accent text-accent-foreground">Alumni</RouterLink>
-              <RouterLink to="/faculty-login" className="hidden sm:inline-block px-3 py-2 rounded-md text-sm bg-accent text-accent-foreground">Faculty</RouterLink>
-              <RouterLink to="/admin-login" className="px-3 py-2 rounded-md text-sm bg-card text-card-foreground border">Admin</RouterLink>
+              <RouterLink to="/faculty-login" className="hidden sm:inline-block px-3 py-2 rounded-md text-sm bg-[rgb(118,25,31)] text-white">Faculty</RouterLink>
+              <RouterLink to="/admin-login" className="px-3 py-2 rounded-md text-sm bg-[rgba(249,195,31,1)] text-[rgb(26,29,35)] border border-[rgb(232,234,238)]">Admin</RouterLink>
             </>
           ) : (
             <div className="flex items-center gap-4">
