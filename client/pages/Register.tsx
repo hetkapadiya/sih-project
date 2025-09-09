@@ -20,6 +20,23 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const countries = ["India", "USA", "United Kingdom", "Japan", "Australia", "Canada"];
+  const citiesByCountry: Record<string, string[]> = {
+    India: ["Mumbai", "Ahmedabad", "Delhi", "Chennai", "Bengaluru", "Kolkata"],
+    USA: ["New York", "Los Angeles"],
+    "United Kingdom": ["London"],
+    Japan: ["Tokyo"],
+    Australia: ["Sydney"],
+    Canada: ["Toronto"],
+  };
+
+  useEffect(() => {
+    if (role === "alumni" && country && (!city || !citiesByCountry[country]?.includes(city))) {
+      const first = citiesByCountry[country]?.[0] || "";
+      setCity(first);
+    }
+  }, [country, role]);
+
   useEffect(() => {
     document.title = "Register �� AlumniHub";
   }, []);
@@ -199,24 +216,39 @@ export default function Register() {
             <>
               <div>
                 <label className="block">
-                  <span className="text-sm text-muted-foreground">City</span>
-                  <input
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
+                  <span className="text-sm text-muted-foreground">Country</span>
+                  <select
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    required
                     className="mt-1 block w-full rounded-md border px-3 py-2 bg-white text-foreground"
-                    placeholder="e.g. Mumbai"
-                  />
+                  >
+                    <option value="">Select a country</option>
+                    {countries.map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
+                  </select>
                 </label>
               </div>
               <div>
                 <label className="block">
-                  <span className="text-sm text-muted-foreground">Country</span>
-                  <input
-                    value={country}
-                    onChange={(e) => setCountry(e.target.value)}
+                  <span className="text-sm text-muted-foreground">City</span>
+                  <select
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    required
+                    disabled={!country}
                     className="mt-1 block w-full rounded-md border px-3 py-2 bg-white text-foreground"
-                    placeholder="e.g. India"
-                  />
+                  >
+                    <option value="">{country ? "Select a city" : "Select a country first"}</option>
+                    {(citiesByCountry[country] || []).map((cty) => (
+                      <option key={cty} value={cty}>
+                        {cty}
+                      </option>
+                    ))}
+                  </select>
                 </label>
               </div>
             </>
