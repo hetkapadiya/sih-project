@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import NewsTicker from "@/components/NewsTicker";
 import QuickLinks from "@/components/QuickLinks";
+import AlumniDensityMap from "@/components/AlumniDensityMap";
 
 export default function Index() {
   useEffect(() => {
@@ -99,6 +100,29 @@ export default function Index() {
               <p className="text-sm text-muted-foreground">15th Sep · Online</p>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section id="gallery" className="py-12 bg-[linear-gradient(180deg,rgba(0,0,0,0.02),transparent)]">
+        <div className="container mx-auto">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-2xl font-bold">Photo Gallery</h3>
+            <a href="/gallery" className="text-sm text-primary hover:underline">View all</a>
+          </div>
+          <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
+            <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=600&auto=format&fit=crop" alt="gallery 1" className="w-full h-40 object-cover rounded-md" />
+            <img src="https://images.unsplash.com/photo-1496302662116-35cc4f36df92?q=80&w=600&auto=format&fit=crop" alt="gallery 2" className="w-full h-40 object-cover rounded-md" />
+            <img src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=600&auto=format&fit=crop" alt="gallery 3" className="w-full h-40 object-cover rounded-md" />
+            <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=600&auto=format&fit=crop" alt="gallery 4" className="w-full h-40 object-cover rounded-md" />
+          </div>
+        </div>
+      </section>
+
+      <section id="alumni-map" className="py-12">
+        <div className="container mx-auto">
+          <h3 className="text-2xl font-bold mb-4">Alumni Map</h3>
+          <p className="text-sm text-muted-foreground mb-4">See where our alumni are around the world. Bubble size indicates population in an area.</p>
+          <AlumniDensityMap />
         </div>
       </section>
     </div>
