@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export type Role = "alumni" | "student" | "admin";
+export type Role = "alumni" | "student" | "admin" | "faculty";
 
 export interface User {
   id: string;
@@ -47,7 +47,30 @@ function seedAdminIfNeeded() {
       role: "admin",
       verified: true,
     };
-    localStorage.setItem(USERS_KEY, JSON.stringify([admin]));
+    const faculty: User = {
+      id: uid(),
+      name: "Faculty Member",
+      email: "faculty@institute.edu",
+      password: "faculty123",
+      role: "faculty",
+      verified: true,
+    };
+    localStorage.setItem(USERS_KEY, JSON.stringify([admin, faculty]));
+  } else {
+    try {
+      const list = JSON.parse(raw) as User[];
+      if (!list.find((u) => u.role === "faculty")) {
+        const faculty: User = {
+          id: uid(),
+          name: "Faculty Member",
+          email: "faculty@institute.edu",
+          password: "faculty123",
+          role: "faculty",
+          verified: true,
+        };
+        localStorage.setItem(USERS_KEY, JSON.stringify([...list, faculty]));
+      }
+    } catch {}
   }
 }
 
@@ -106,6 +129,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     // redirect to appropriate dashboard
     if (found.role === "admin") navigate("/admin/dashboard");
     else if (found.role === "student") navigate("/dashboard/student");
+    else if (found.role === "faculty") navigate("/dashboard/faculty");
     else navigate("/dashboard/alumni");
     return found;
   };
@@ -136,6 +160,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     // redirect
     if (newUser.role === "admin") navigate("/admin/dashboard");
     else if (newUser.role === "student") navigate("/dashboard/student");
+    else if (newUser.role === "faculty") navigate("/dashboard/faculty");
     else navigate("/dashboard/alumni");
     return newUser;
   };
