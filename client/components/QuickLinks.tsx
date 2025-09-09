@@ -3,7 +3,7 @@ import * as React from "react";
 export default function QuickLinks() {
   const links = [
     { title: "Alumni Services", href: "/alumni-login" },
-    { title: "Donate", href: "#" },
+    { title: "Donate", href: "/donate" },
     { title: "Mentorship", href: "#" }
   ];
   return (
