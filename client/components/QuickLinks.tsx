@@ -3,8 +3,6 @@ import * as React from "react";
 export default function QuickLinks() {
   const links = [
     { title: "Alumni Services", href: "/alumni-login" },
-    { title: "Student Portal", href: "/student-login" },
-    { title: "Events", href: "#events" },
     { title: "Donate", href: "#" },
     { title: "Mentorship", href: "#" },
     { title: "Contact", href: "#contact" },
