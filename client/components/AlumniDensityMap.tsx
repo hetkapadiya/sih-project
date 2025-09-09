@@ -43,25 +43,45 @@ export default function AlumniDensityMap() {
       Australia: { lat: -25.2744, lng: 133.7751 },
       Canada: { lat: 56.1304, lng: -106.3468 },
     };
-    const map = new Map<string, { lat: number; lng: number; count: number; name: string }>();
+
+    const byCountry = new Map<string, { name: string; pts: { lat: number; lng: number }[] }>();
+    const byPoint = new Map<string, { lat: number; lng: number; count: number; name: string }>();
+
     for (const u of points) {
       const loc = u.location!;
       const country = (loc.country || "").trim();
-      if (country && centroids[country]) {
-        const key = `country:${country.toLowerCase()}`;
-        const c = centroids[country];
-        const cur = map.get(key);
-        if (cur) cur.count += 1;
-        else map.set(key, { lat: c.lat, lng: c.lng, count: 1, name: country });
+      if (country) {
+        const cur = byCountry.get(country) || { name: country, pts: [] };
+        cur.pts.push({ lat: loc.lat, lng: loc.lng });
+        byCountry.set(country, cur);
       } else {
-        const key = `point:${loc.lat.toFixed(2)},${loc.lng.toFixed(2)}`;
+        const key = `${loc.lat.toFixed(2)},${loc.lng.toFixed(2)}`;
         const name = [loc.city, loc.country].filter(Boolean).join(", ") || "Unknown";
-        const cur = map.get(key);
-        if (cur) cur.count += 1;
-        else map.set(key, { lat: loc.lat, lng: loc.lng, count: 1, name });
+        const cur = byPoint.get(key) || { lat: loc.lat, lng: loc.lng, count: 0, name };
+        cur.count += 1;
+        byPoint.set(key, cur);
       }
     }
-    return Array.from(map.values());
+
+    const out: { lat: number; lng: number; count: number; name: string }[] = [];
+
+    for (const [country, rec] of byCountry) {
+      const cnt = rec.pts.length;
+      if (centroids[country]) {
+        const c = centroids[country];
+        out.push({ lat: c.lat, lng: c.lng, count: cnt, name: country });
+      } else {
+        const avg = rec.pts.reduce(
+          (a, p) => ({ lat: a.lat + p.lat, lng: a.lng + p.lng }),
+          { lat: 0, lng: 0 },
+        );
+        out.push({ lat: avg.lat / cnt, lng: avg.lng / cnt, count: cnt, name: country });
+      }
+    }
+
+    for (const v of byPoint.values()) out.push(v);
+
+    return out;
   }, [points]);
 
   const max = grouped.reduce((m, p) => Math.max(m, p.count), 1);
