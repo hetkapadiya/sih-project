@@ -5,11 +5,11 @@ import { useAuth } from "@/context/AuthProvider";
 export default function Register() {
   const [searchParams] = useSearchParams();
   const defaultRole =
-    (searchParams.get("role") as "alumni" | "student" | null) || "alumni";
+    (searchParams.get("role") as "alumni" | "student" | "faculty" | null) || "alumni";
 
   const { register, getUsers } = useAuth();
 
-  const [role, setRole] = useState<"alumni" | "student" | "admin">(defaultRole as any);
+  const [role, setRole] = useState<"alumni" | "student" | "faculty" | "admin">(defaultRole as any);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -92,6 +92,20 @@ export default function Register() {
         </div>
 
         {error && <div className="text-sm text-destructive mb-3">{error}</div>}
+
+        <div className="mb-6">
+          <label className="inline-flex items-center mr-6">
+            <input
+              type="radio"
+              name="role"
+              value="faculty"
+              checked={role === "faculty"}
+              onChange={() => setRole("faculty")}
+              className="mr-2"
+            />
+            Faculty
+          </label>
+        </div>
 
         <form
           onSubmit={handleSubmit}
