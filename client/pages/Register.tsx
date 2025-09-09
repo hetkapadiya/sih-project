@@ -14,12 +14,14 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [batch, setBatch] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
   const [adminKey, setAdminKey] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    document.title = "Register — AlumniHub";
+    document.title = "Register �� AlumniHub";
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -39,7 +41,37 @@ export default function Register() {
         }
       }
 
-      await register({ name, email, password, role, batch });
+      const cityKey = (city + "," + country).toLowerCase().trim();
+      const geodb: Record<string, { lat: number; lng: number }> = {
+        "mumbai,india": { lat: 19.076, lng: 72.8777 },
+        "ahmedabad,india": { lat: 23.0225, lng: 72.5714 },
+        "new york,usa": { lat: 40.7128, lng: -74.006 },
+        "london,united kingdom": { lat: 51.5074, lng: -0.1278 },
+        "delhi,india": { lat: 28.6139, lng: 77.209 },
+        "tokyo,japan": { lat: 35.6762, lng: 139.6503 },
+        "sydney,australia": { lat: -33.8688, lng: 151.2093 },
+        "toronto,canada": { lat: 43.6532, lng: -79.3832 },
+        "los angeles,usa": { lat: 34.0522, lng: -118.2437 },
+        "chennai,india": { lat: 13.0827, lng: 80.2707 },
+        "bengaluru,india": { lat: 12.9716, lng: 77.5946 },
+        "kolkata,india": { lat: 22.5726, lng: 88.3639 }
+      };
+      const coords = geodb[cityKey];
+
+      await register({
+        name,
+        email,
+        password,
+        role,
+        batch,
+        ...(role === "alumni"
+          ? coords
+            ? { location: { city, country, lat: coords.lat, lng: coords.lng } }
+            : country || city
+            ? { location: { city, country } as any }
+            : {}
+          : {}),
+      } as any);
     } catch (err: any) {
       setError(err?.message || "Registration failed");
     } finally {
@@ -163,6 +195,33 @@ export default function Register() {
             </label>
           </div>
 
+          {role === "alumni" && (
+            <>
+              <div>
+                <label className="block">
+                  <span className="text-sm text-muted-foreground">City</span>
+                  <input
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    className="mt-1 block w-full rounded-md border px-3 py-2 bg-white text-foreground"
+                    placeholder="e.g. Mumbai"
+                  />
+                </label>
+              </div>
+              <div>
+                <label className="block">
+                  <span className="text-sm text-muted-foreground">Country</span>
+                  <input
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    className="mt-1 block w-full rounded-md border px-3 py-2 bg-white text-foreground"
+                    placeholder="e.g. India"
+                  />
+                </label>
+              </div>
+            </>
+          )}
+
           {role === "admin" && (
             <div>
               <label className="block">
@@ -183,7 +242,7 @@ export default function Register() {
             >
               {loading
                 ? "Registering..."
-                : `Register as ${role === "alumni" ? "Alumni" : role === "student" ? "Student" : "Admin"}`}
+                : `Register as ${role === "alumni" ? "Alumni" : role === "student" ? "Student" : role === "faculty" ? "Faculty" : "Admin"}`}
             </button>
           </div>
         </form>
