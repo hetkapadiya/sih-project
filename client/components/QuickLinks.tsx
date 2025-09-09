@@ -4,8 +4,7 @@ export default function QuickLinks() {
   const links = [
     { title: "Alumni Services", href: "/alumni-login" },
     { title: "Donate", href: "#" },
-    { title: "Mentorship", href: "#" },
-    { title: "Contact", href: "#contact" },
+    { title: "Mentorship", href: "#" }
   ];
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
