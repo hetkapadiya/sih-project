@@ -5,11 +5,14 @@ import { useAuth } from "@/context/AuthProvider";
 export default function Register() {
   const [searchParams] = useSearchParams();
   const defaultRole =
-    (searchParams.get("role") as "alumni" | "student" | "faculty" | null) || "alumni";
+    (searchParams.get("role") as "alumni" | "student" | "faculty" | null) ||
+    "alumni";
 
   const { register, getUsers } = useAuth();
 
-  const [role, setRole] = useState<"alumni" | "student" | "faculty" | "admin">(defaultRole as any);
+  const [role, setRole] = useState<"alumni" | "student" | "faculty" | "admin">(
+    defaultRole as any,
+  );
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,7 +23,14 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const countries = ["India", "USA", "United Kingdom", "Japan", "Australia", "Canada"];
+  const countries = [
+    "India",
+    "USA",
+    "United Kingdom",
+    "Japan",
+    "Australia",
+    "Canada",
+  ];
   const citiesByCountry: Record<string, string[]> = {
     India: ["Mumbai", "Ahmedabad", "Delhi", "Chennai", "Bengaluru", "Kolkata"],
     USA: ["New York", "Los Angeles"],
@@ -31,7 +41,11 @@ export default function Register() {
   };
 
   useEffect(() => {
-    if (role === "alumni" && country && (!city || !citiesByCountry[country]?.includes(city))) {
+    if (
+      role === "alumni" &&
+      country &&
+      (!city || !citiesByCountry[country]?.includes(city))
+    ) {
       const first = citiesByCountry[country]?.[0] || "";
       setCity(first);
     }
@@ -50,7 +64,9 @@ export default function Register() {
     try {
       if (role === "admin") {
         const users = getUsers();
-        const valid = users.find((u) => u.role === "admin" && u.password === adminKey);
+        const valid = users.find(
+          (u) => u.role === "admin" && u.password === adminKey,
+        );
         if (!valid) {
           setError("Invalid admin access key. Contact site administrator.");
           setLoading(false);
@@ -71,7 +87,7 @@ export default function Register() {
         "los angeles,usa": { lat: 34.0522, lng: -118.2437 },
         "chennai,india": { lat: 13.0827, lng: 80.2707 },
         "bengaluru,india": { lat: 12.9716, lng: 77.5946 },
-        "kolkata,india": { lat: 22.5726, lng: 88.3639 }
+        "kolkata,india": { lat: 22.5726, lng: 88.3639 },
       };
       const coords = geodb[cityKey];
 
@@ -85,8 +101,8 @@ export default function Register() {
           ? coords
             ? { location: { city, country, lat: coords.lat, lng: coords.lng } }
             : country || city
-            ? { location: { city, country } as any }
-            : {}
+              ? { location: { city, country } as any }
+              : {}
           : {}),
       } as any);
     } catch (err: any) {
@@ -242,7 +258,9 @@ export default function Register() {
                     disabled={!country}
                     className="mt-1 block w-full rounded-md border px-3 py-2 bg-white text-foreground"
                   >
-                    <option value="">{country ? "Select a city" : "Select a country first"}</option>
+                    <option value="">
+                      {country ? "Select a city" : "Select a country first"}
+                    </option>
                     {(citiesByCountry[country] || []).map((cty) => (
                       <option key={cty} value={cty}>
                         {cty}
@@ -257,8 +275,15 @@ export default function Register() {
           {role === "admin" && (
             <div>
               <label className="block">
-                <span className="text-sm text-muted-foreground">Admin access key</span>
-                <input value={adminKey} onChange={(e) => setAdminKey(e.target.value)} className="mt-1 block w-full rounded-md border px-3 py-2 bg-white text-foreground" placeholder="Enter admin access key" />
+                <span className="text-sm text-muted-foreground">
+                  Admin access key
+                </span>
+                <input
+                  value={adminKey}
+                  onChange={(e) => setAdminKey(e.target.value)}
+                  className="mt-1 block w-full rounded-md border px-3 py-2 bg-white text-foreground"
+                  placeholder="Enter admin access key"
+                />
               </label>
             </div>
           )}
