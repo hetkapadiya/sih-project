@@ -25,9 +25,7 @@ export default function Index() {
             <p className="mt-4 text-lg text-muted-foreground max-w-2xl">Connecting generations — events, mentorship, careers, and opportunities for alumni and students of the Institute.</p>
 
             <div className="mt-6 flex flex-wrap gap-3">
-              <a href="/alumni-login" className="px-5 py-3 rounded-md bg-accent text-accent-foreground font-semibold">Alumni Login</a>
-              <a href="/student-login" className="px-5 py-3 rounded-md bg-secondary text-secondary-foreground border">Student Portal</a>
-              <a href="/register" className="px-5 py-3 rounded-md bg-card text-card-foreground border">Register</a>
+              <a href="/register" className="px-5 py-3 rounded-md bg-white text-foreground border border-[rgb(232,234,238)]">Register</a>
             </div>
 
             <div className="mt-8">
