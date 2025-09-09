@@ -37,7 +37,7 @@ export default function Header() {
 
         <div className="flex items-center gap-3">
           <div className="hidden md:block">
-            <input placeholder="Search" className="px-3 py-2 rounded-md border w-56 text-sm" />
+            <input placeholder="Search" className="flex px-3 py-2 rounded-md border w-56 text-sm leading-5 font-normal text-[#D0021B] border-[rgb(232,234,238)]" />
           </div>
 
           {!user ? (
