@@ -104,20 +104,6 @@ export default function Register() {
 
         {error && <div className="text-sm text-destructive mb-3">{error}</div>}
 
-        <div className="mb-6">
-          <label className="inline-flex items-center mr-6">
-            <input
-              type="radio"
-              name="role"
-              value="faculty"
-              checked={role === "faculty"}
-              onChange={() => setRole("faculty")}
-              className="mr-2"
-            />
-            Faculty
-          </label>
-        </div>
-
         <form
           onSubmit={handleSubmit}
           className="grid grid-cols-1 md:grid-cols-2 gap-4"
