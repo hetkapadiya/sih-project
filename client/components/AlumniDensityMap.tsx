@@ -44,8 +44,14 @@ export default function AlumniDensityMap() {
       Canada: { lat: 56.1304, lng: -106.3468 },
     };
 
-    const byCountry = new Map<string, { name: string; pts: { lat: number; lng: number }[] }>();
-    const byPoint = new Map<string, { lat: number; lng: number; count: number; name: string }>();
+    const byCountry = new Map<
+      string,
+      { name: string; pts: { lat: number; lng: number }[] }
+    >();
+    const byPoint = new Map<
+      string,
+      { lat: number; lng: number; count: number; name: string }
+    >();
 
     for (const u of points) {
       const loc = u.location!;
@@ -56,8 +62,14 @@ export default function AlumniDensityMap() {
         byCountry.set(country, cur);
       } else {
         const key = `${loc.lat.toFixed(2)},${loc.lng.toFixed(2)}`;
-        const name = [loc.city, loc.country].filter(Boolean).join(", ") || "Unknown";
-        const cur = byPoint.get(key) || { lat: loc.lat, lng: loc.lng, count: 0, name };
+        const name =
+          [loc.city, loc.country].filter(Boolean).join(", ") || "Unknown";
+        const cur = byPoint.get(key) || {
+          lat: loc.lat,
+          lng: loc.lng,
+          count: 0,
+          name,
+        };
         cur.count += 1;
         byPoint.set(key, cur);
       }
@@ -75,7 +87,12 @@ export default function AlumniDensityMap() {
           (a, p) => ({ lat: a.lat + p.lat, lng: a.lng + p.lng }),
           { lat: 0, lng: 0 },
         );
-        out.push({ lat: avg.lat / cnt, lng: avg.lng / cnt, count: cnt, name: country });
+        out.push({
+          lat: avg.lat / cnt,
+          lng: avg.lng / cnt,
+          count: cnt,
+          name: country,
+        });
       }
     }
 
@@ -141,7 +158,11 @@ export default function AlumniDensityMap() {
               <div
                 title={`${p.name} — ${p.count} alumni`}
                 className="-translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/85 ring-2 ring-white/80 shadow flex items-center justify-center text-white font-semibold"
-                style={{ width: r, height: r, fontSize: Math.max(10, Math.min(14, Math.floor(r / 1.5))) }}
+                style={{
+                  width: r,
+                  height: r,
+                  fontSize: Math.max(10, Math.min(14, Math.floor(r / 1.5))),
+                }}
               >
                 {p.count}
               </div>
