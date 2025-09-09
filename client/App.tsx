@@ -14,6 +14,7 @@ import AlumniLogin from "./pages/AlumniLogin";
 import FacultyLogin from "./pages/FacultyLogin";
 import Gallery from "./pages/Gallery";
 import Donate from "./pages/Donate";
+import Mentorship from "./pages/Mentorship";
 import Register from "./pages/Register";
 import AdminLogin from "./pages/AdminLogin";
 import DashboardAlumni from "./pages/DashboardAlumni";
@@ -42,6 +43,7 @@ const App = () => (
               <Route path="/alumni-login" element={<AlumniLogin />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/donate" element={<Donate />} />
+              <Route path="/mentorship" element={<Mentorship />} />
               <Route path="/faculty-login" element={<FacultyLogin />} />
               <Route path="/admin-login" element={<AdminLogin />} />
               <Route path="/register" element={<Register />} />
