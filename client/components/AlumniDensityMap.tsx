@@ -46,25 +46,41 @@ export default function AlumniDensityMap() {
     return { left: x, top: y };
   };
 
+  const [zoom, setZoom] = React.useState(1);
+  const zoomIn = () => setZoom((z) => Math.min(3, +(z + 0.25).toFixed(2)));
+  const zoomOut = () => setZoom((z) => Math.max(1, +(z - 0.25).toFixed(2)));
+
   return (
     <div className="relative w-full" style={{ aspectRatio: "2 / 1" }} ref={wrapRef}>
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/World_map_-_low_resolution.svg/1280px-World_map_-_low_resolution.svg.png"
-        alt="World map"
-        className="absolute inset-0 w-full h-full object-cover opacity-90 rounded-md"
-      />
-      {grouped.map((p, i) => {
-        const pos = project(p.lat, p.lng);
-        const r = 6 + Math.round((p.count / max) * 18);
-        return (
-          <div
-            key={i}
-            title={`${p.city}, ${p.country} — ${p.count} alumni`}
-            className="absolute -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/80 ring-2 ring-white/70 shadow"
-            style={{ left: pos.left, top: pos.top, width: r, height: r }}
-          />
-        );
-      })}
+      <div className="absolute right-3 top-3 z-10 flex flex-col gap-2">
+        <button onClick={zoomIn} className="w-9 h-9 rounded bg-white text-foreground shadow border">+</button>
+        <button onClick={zoomOut} className="w-9 h-9 rounded bg-white text-foreground shadow border">-</button>
+      </div>
+
+      <div className="absolute inset-0" style={{ transform: `scale(${zoom})`, transformOrigin: "center center" }}>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/World_map_-_low_resolution.svg/1280px-World_map_-_low_resolution.svg.png"
+          alt="World map"
+          className="absolute inset-0 w-full h-full object-cover opacity-90 rounded-md"
+        />
+        {grouped.map((p, i) => {
+          const pos = project(p.lat, p.lng);
+          const r = 6 + Math.round((p.count / max) * 18);
+          return (
+            <div key={i} className="absolute" style={{ left: pos.left, top: pos.top }}>
+              <div
+                title={`${p.city}, ${p.country} — ${p.count} alumni`}
+                className="-translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/80 ring-2 ring-white/70 shadow"
+                style={{ width: r, height: r }}
+              />
+              <div className="-translate-x-1/2 translate-y-1 text-[10px] text-white font-semibold drop-shadow text-center">
+                {p.count}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
       {grouped.length === 0 && (
         <div className="absolute inset-0 flex items-center justify-center text-sm text-muted-foreground">
           No alumni locations available yet.
