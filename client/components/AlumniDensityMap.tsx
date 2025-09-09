@@ -35,16 +35,31 @@ export default function AlumniDensityMap() {
   const [wrapRef, size] = useElementSize<HTMLDivElement>();
 
   const grouped = React.useMemo(() => {
-    const map = new Map<
-      string,
-      { lat: number; lng: number; count: number; city: string; country: string }
-    >();
+    const centroids: Record<string, { lat: number; lng: number }> = {
+      India: { lat: 22.9734, lng: 78.6569 },
+      USA: { lat: 39.8283, lng: -98.5795 },
+      "United Kingdom": { lat: 55.3781, lng: -3.436 },
+      Japan: { lat: 36.2048, lng: 138.2529 },
+      Australia: { lat: -25.2744, lng: 133.7751 },
+      Canada: { lat: 56.1304, lng: -106.3468 },
+    };
+    const map = new Map<string, { lat: number; lng: number; count: number; name: string }>();
     for (const u of points) {
-      const { lat, lng, city, country } = u.location!;
-      const key = `${lat.toFixed(2)},${lng.toFixed(2)}`;
-      const cur = map.get(key);
-      if (cur) cur.count += 1;
-      else map.set(key, { lat, lng, count: 1, city, country });
+      const loc = u.location!;
+      const country = (loc.country || "").trim();
+      if (country && centroids[country]) {
+        const key = `country:${country.toLowerCase()}`;
+        const c = centroids[country];
+        const cur = map.get(key);
+        if (cur) cur.count += 1;
+        else map.set(key, { lat: c.lat, lng: c.lng, count: 1, name: country });
+      } else {
+        const key = `point:${loc.lat.toFixed(2)},${loc.lng.toFixed(2)}`;
+        const name = [loc.city, loc.country].filter(Boolean).join(", ") || "Unknown";
+        const cur = map.get(key);
+        if (cur) cur.count += 1;
+        else map.set(key, { lat: loc.lat, lng: loc.lng, count: 1, name });
+      }
     }
     return Array.from(map.values());
   }, [points]);
@@ -104,7 +119,7 @@ export default function AlumniDensityMap() {
               style={{ left: pos.left, top: pos.top }}
             >
               <div
-                title={`${p.city}, ${p.country} — ${p.count} alumni`}
+                title={`${p.name} — ${p.count} alumni`}
                 className="-translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/80 ring-2 ring-white/70 shadow"
                 style={{ width: r, height: r }}
               />
