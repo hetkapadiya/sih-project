@@ -56,7 +56,7 @@ export default function Header() {
           <div className="hidden md:block">
             <input
               placeholder="Search"
-              className="flex px-3 py-2 rounded-md border w-56 text-sm leading-5 font-normal text-black border-[rgb(232,234,238)]"
+              className="flex px-3 py-2 rounded-md border w-56 text-sm leading-5 font-normal text-white border-[rgb(232,234,238)] border-[1px]"
             />
           </div>
 
