@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { loadStore } from "../store";
+import { loadStore, logAudit } from "../store";
 
 export default function SupportSection() {
   const [store, setStore] = React.useState(loadStore());
@@ -18,6 +18,7 @@ export default function SupportSection() {
     const id = Math.random().toString(36).slice(2, 8);
     const next = [...store.notices, { id, title: noticeTitle, message: noticeMsg, createdAt: Date.now() }];
     localStorage.setItem("alumnihub_admin_store_v1", JSON.stringify({ ...store, notices: next }));
+    logAudit("admin", "post_notice", noticeTitle);
     setNoticeTitle("");
     setNoticeMsg("");
     refresh();
@@ -27,6 +28,7 @@ export default function SupportSection() {
     const id = Math.random().toString(36).slice(2, 8);
     const next = [...store.helpdesk, { id, user: "", subject: ticketSubject, description: ticketDesc, status: "open" as const, createdAt: Date.now() }];
     localStorage.setItem("alumnihub_admin_store_v1", JSON.stringify({ ...store, helpdesk: next }));
+    logAudit("admin", "create_ticket", ticketSubject);
     setTicketSubject("");
     setTicketDesc("");
     refresh();
@@ -35,6 +37,7 @@ export default function SupportSection() {
   function setTicketStatus(id: string, status: "open" | "in_progress" | "resolved") {
     const next = store.helpdesk.map((t) => (t.id === id ? { ...t, status } : t));
     localStorage.setItem("alumnihub_admin_store_v1", JSON.stringify({ ...store, helpdesk: next }));
+    logAudit("admin", "set_ticket_status", `${id}:${status}`);
     refresh();
   }
 
