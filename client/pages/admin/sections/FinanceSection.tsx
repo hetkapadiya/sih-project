@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { AdminAPI, exportCSV, exportPDF, loadStore } from "../store";
+import { AdminAPI, exportCSV, exportPDF, loadStore, logAudit } from "../store";
 
 export default function FinanceSection() {
   const [store, setStore] = React.useState(loadStore());
@@ -19,6 +19,7 @@ export default function FinanceSection() {
     const amt = parseFloat(amount || "0");
     if (!donor || !amt) return;
     AdminAPI.addDonation({ donor, email: "", amount: amt, campaign: "General" });
+    logAudit("admin", "add_donation", `${donor} ₹${amt}`);
     setDonor("");
     setAmount("");
     refresh();
@@ -27,6 +28,7 @@ export default function FinanceSection() {
     const amt = parseFloat(spAmount || "0");
     if (!sponsor || !amt) return;
     AdminAPI.addSponsorship({ sponsor, amount: amt, package: "Gold" });
+    logAudit("admin", "add_sponsorship", `${sponsor} ₹${amt}`);
     setSponsor("");
     setSpAmount("");
     refresh();
@@ -34,6 +36,7 @@ export default function FinanceSection() {
   function addTicket() {
     const qty = parseInt(ticketQty || "1", 10) || 1;
     AdminAPI.addTicket({ eventId: store.events[0]?.id || "none", buyer: ticketBuyer || "Guest", quantity: qty, total: qty * 100, paid: true });
+    logAudit("admin", "add_ticket", `${ticketBuyer} x${qty}`);
     setTicketBuyer("");
     setTicketQty("1");
     refresh();
