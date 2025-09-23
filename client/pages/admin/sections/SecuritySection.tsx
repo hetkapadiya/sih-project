@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { loadStore, AdminAPI } from "../store";
+import { loadStore, AdminAPI, logAudit } from "../store";
 
 export default function SecuritySection() {
   const [store, setStore] = React.useState(loadStore());
@@ -14,18 +14,21 @@ export default function SecuritySection() {
 
   function toggleMFA(v: boolean) {
     AdminAPI.setSecurity({ enforceMFA: v });
+    logAudit("admin", v ? "enable_mfa" : "disable_mfa");
     refresh();
   }
 
   function addIp() {
     const list = [...(store.security.loginRestrictions?.ipAllowList || []), ip].filter(Boolean);
     AdminAPI.setSecurity({ loginRestrictions: { ipAllowList: list } });
+    logAudit("admin", "add_ip_allow", ip);
     setIp("");
     refresh();
   }
   function addRegion() {
     const list = [...(store.security.loginRestrictions?.regionsAllowList || []), region].filter(Boolean);
     AdminAPI.setSecurity({ loginRestrictions: { regionsAllowList: list } });
+    logAudit("admin", "add_region_allow", region);
     setRegion("");
     refresh();
   }
