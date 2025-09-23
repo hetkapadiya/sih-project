@@ -4,6 +4,7 @@ import type {
   AdminStore,
   Announcement,
   EventItem,
+  EventRegistration,
   FileAsset,
   MessageTemplate,
   ModerationItem,
