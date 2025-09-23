@@ -1,6 +1,6 @@
 import * as React from "react";
-import { useEffect, useMemo, useState } from "react";
-import { useAuth } from "@/context/AuthProvider";
+import React from "react";
+import AdminPanel from "./admin/AdminPanel";
 
 export default function DashboardAdmin() {
   return (
