@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { AdminAPI, exportCSV, exportPDF, fileToDataUrl, loadStore } from "../store";
+import { AdminAPI, exportCSV, exportPDF, fileToDataUrl, loadStore, logAudit } from "../store";
 
 export default function ContentSection() {
   const [title, setTitle] = React.useState("");
@@ -18,7 +18,8 @@ export default function ContentSection() {
 
   function addAnnouncement() {
     if (!title.trim()) return;
-    AdminAPI.addAnnouncement({ title, body, published: true });
+    const a = AdminAPI.addAnnouncement({ title, body, published: true });
+    logAudit("admin", "add_announcement", a.title);
     setTitle("");
     setBody("");
     refresh();
@@ -26,7 +27,8 @@ export default function ContentSection() {
 
   function addEvent() {
     if (!eventTitle || !eventDate) return;
-    AdminAPI.addEvent({ title: eventTitle, description: "", date: eventDate, location: eventLocation });
+    const e = AdminAPI.addEvent({ title: eventTitle, description: "", date: eventDate, location: eventLocation });
+    logAudit("admin", "add_event", e.title);
     setEventTitle("");
     setEventDate("");
     setEventLocation("");
@@ -36,7 +38,8 @@ export default function ContentSection() {
   async function uploadFile() {
     if (!file) return;
     const dataUrl = await fileToDataUrl(file);
-    AdminAPI.addFile({ name: file.name, type: file.type, size: file.size, dataUrl });
+    const f = AdminAPI.addFile({ name: file.name, type: file.type, size: file.size, dataUrl });
+    logAudit("admin", "upload_file", f.name);
     setFile(null);
     (document.getElementById("file-input") as HTMLInputElement).value = "";
     refresh();
@@ -82,7 +85,7 @@ export default function ContentSection() {
                   <TableCell>{new Date(a.createdAt).toLocaleString()}</TableCell>
                   <TableCell>
                     <Button size="sm" variant="secondary" onClick={() => { AdminAPI.updateAnnouncement(a.id, { published: !a.published }); refresh(); }}>{a.published ? "Unpublish" : "Publish"}</Button>
-                    <Button size="sm" variant="outline" className="ml-2" onClick={() => { AdminAPI.removeAnnouncement(a.id); refresh(); }}>Delete</Button>
+                    <Button size="sm" variant="outline" className="ml-2" onClick={() => { AdminAPI.removeAnnouncement(a.id); logAudit("admin", "delete_announcement", a.title); refresh(); }}>Delete</Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -120,8 +123,8 @@ export default function ContentSection() {
                   <TableCell>{e.location}</TableCell>
                   <TableCell>{e.registrations.length}</TableCell>
                   <TableCell>
-                    <Button size="sm" onClick={() => { AdminAPI.addRegistration(e.id, { name: "Guest", email: "guest@example.com", paid: true, amount: 0 }); refresh(); }}>Add Test Registration</Button>
-                    <Button size="sm" variant="outline" className="ml-2" onClick={() => { AdminAPI.removeEvent(e.id); refresh(); }}>Delete</Button>
+                    <Button size="sm" onClick={() => { AdminAPI.addRegistration(e.id, { name: "Guest", email: "guest@example.com", paid: true, amount: 0 }); logAudit("admin", "add_registration", e.title); refresh(); }}>Add Test Registration</Button>
+                    <Button size="sm" variant="outline" className="ml-2" onClick={() => { AdminAPI.removeEvent(e.id); logAudit("admin", "delete_event", e.title); refresh(); }}>Delete</Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -146,7 +149,7 @@ export default function ContentSection() {
                   <img src={f.dataUrl} alt={f.name} className="mt-2 rounded" />
                 )}
                 <div className="mt-2 flex gap-2">
-                  <Button size="sm" variant="outline" onClick={() => AdminAPI.removeFile(f.id) || refresh()}>Delete</Button>
+                  <Button size="sm" variant="outline" onClick={() => { AdminAPI.removeFile(f.id); logAudit("admin", "delete_file", f.name); refresh(); }}>Delete</Button>
                   <a href={f.dataUrl} download={f.name} className="text-sm underline">Download</a>
                 </div>
               </div>
