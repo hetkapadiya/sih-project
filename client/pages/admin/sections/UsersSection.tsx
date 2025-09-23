@@ -6,14 +6,14 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useAuth, User } from "@/context/AuthProvider";
-import { exportCSV, exportPDF } from "../store";
+import { exportCSV, exportPDF, logAudit } from "../store";
 
 function csvRow(u: User): (string | number | boolean | null | undefined)[] {
   return [u.name, u.email, u.role, u.batch || "", u.department || "", (u.skills || []).join(";"), u.verified ? "Yes" : "No", u.disabled ? "Yes" : "No", u.location?.country || "", u.location?.city || ""];
 }
 
 export default function UsersSection() {
-  const { getUsers, verifyUser, rejectUser, deleteUser, updateUserRole, createUser, updateUser, setUserDisabled, resetPassword } = useAuth();
+  const { user, getUsers, verifyUser, rejectUser, deleteUser, updateUserRole, createUser, updateUser, setUserDisabled, resetPassword } = useAuth();
   const [q, setQ] = React.useState("");
   const [role, setRole] = React.useState<string>("all");
   const [verify, setVerify] = React.useState<string>("all");
@@ -31,7 +31,8 @@ export default function UsersSection() {
   const [form, setForm] = React.useState<Omit<User, "id">>({ name: "", email: "", password: "temp123", role: "alumni", batch: "", department: "", skills: [], verified: true });
 
   function onCreate() {
-    createUser(form);
+    const created = createUser(form);
+    logAudit(user?.email || "admin", "create_user", `Created ${created.email}`);
     refresh();
     setForm({ name: "", email: "", password: "temp123", role: "alumni", batch: "", department: "", skills: [], verified: true });
   }
@@ -121,7 +122,7 @@ export default function UsersSection() {
                   <TableCell className="font-medium">{u.name}</TableCell>
                   <TableCell>{u.email}</TableCell>
                   <TableCell>
-                    <Select defaultValue={u.role} onValueChange={(v) => { updateUserRole(u.id, v as any); refresh(); }}>
+                    <Select defaultValue={u.role} onValueChange={(v) => { updateUserRole(u.id, v as any); logAudit(user?.email || "admin", "update_role", `${u.email} -> ${v}`); refresh(); }}>
                       <SelectTrigger className="h-8"><SelectValue /></SelectTrigger>
                       <SelectContent>
                         <SelectItem value="admin">Admin</SelectItem>
@@ -139,13 +140,13 @@ export default function UsersSection() {
                   <TableCell className="space-x-2">
                     {!u.verified && (
                       <>
-                        <Button size="sm" onClick={() => { verifyUser(u.id); refresh(); }}>Approve</Button>
-                        <Button size="sm" variant="destructive" onClick={() => { rejectUser(u.id); refresh(); }}>Reject</Button>
+                        <Button size="sm" onClick={() => { verifyUser(u.id); logAudit(user?.email || "admin", "verify_user", u.email); refresh(); }}>Approve</Button>
+                        <Button size="sm" variant="destructive" onClick={() => { rejectUser(u.id); logAudit(user?.email || "admin", "reject_user", u.email); refresh(); }}>Reject</Button>
                       </>
                     )}
-                    <Button size="sm" variant="secondary" onClick={() => { const r = resetPassword(u.id); alert(`Reset link: ${r.link}`); }}>Reset Password</Button>
-                    <Button size="sm" variant={u.disabled ? "secondary" : "destructive"} onClick={() => { setUserDisabled(u.id, !u.disabled); refresh(); }}>{u.disabled ? "Enable" : "Disable"}</Button>
-                    <Button size="sm" variant="outline" onClick={() => { deleteUser(u.id); refresh(); }}>Delete</Button>
+                    <Button size="sm" variant="secondary" onClick={() => { const r = resetPassword(u.id); logAudit(user?.email || "admin", "reset_password", u.email); alert(`Reset link: ${r.link}`); }}>Reset Password</Button>
+                    <Button size="sm" variant={u.disabled ? "secondary" : "destructive"} onClick={() => { setUserDisabled(u.id, !u.disabled); logAudit(user?.email || "admin", !u.disabled ? "disable_user" : "enable_user", u.email); refresh(); }}>{u.disabled ? "Enable" : "Disable"}</Button>
+                    <Button size="sm" variant="outline" onClick={() => { deleteUser(u.id); logAudit(user?.email || "admin", "delete_user", u.email); refresh(); }}>Delete</Button>
                   </TableCell>
                 </TableRow>
               ))}
