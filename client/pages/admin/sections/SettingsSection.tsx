@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { AdminAPI, applyBranding, getBackupJSON, loadStore, restoreFromJSON } from "../store";
+import { AdminAPI, applyBranding, getBackupJSON, loadStore, restoreFromJSON, logAudit } from "../store";
 
 export default function SettingsSection() {
   const [store, setStore] = React.useState(loadStore());
@@ -27,6 +27,7 @@ export default function SettingsSection() {
   function saveBranding() {
     AdminAPI.setBranding({ primaryColor: color, bannerText: banner, logoDataUrl: logo });
     applyBranding({ primaryColor: color, bannerText: banner, logoDataUrl: logo });
+    logAudit("admin", "save_branding", color || "");
     refresh();
   }
 
@@ -41,6 +42,7 @@ export default function SettingsSection() {
 
   function saveIntegrations() {
     AdminAPI.setIntegrations({ emailServiceKey: integrationEmail, paymentGatewayKey: integrationPayment });
+    logAudit("admin", "save_integrations");
     refresh();
   }
 
@@ -53,6 +55,7 @@ export default function SettingsSection() {
     a.download = "alumnihub-admin-backup.json";
     a.click();
     URL.revokeObjectURL(url);
+    logAudit("admin", "download_backup");
   }
 
   function restoreBackup(e: React.ChangeEvent<HTMLInputElement>) {
@@ -60,7 +63,7 @@ export default function SettingsSection() {
     if (!f) return;
     const reader = new FileReader();
     reader.onload = () => {
-      try { restoreFromJSON(String(reader.result)); refresh(); } catch {}
+      try { restoreFromJSON(String(reader.result)); logAudit("admin", "restore_backup"); refresh(); } catch {}
     };
     reader.readAsText(f);
   }
