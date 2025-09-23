@@ -10,7 +10,11 @@ export interface User {
   password: string; // NOTE: for demo only — do NOT use plain text in production
   role: Role;
   batch?: string;
+  department?: string;
+  skills?: string[];
   verified?: boolean;
+  disabled?: boolean;
+  lastActiveAt?: number;
   location?: {
     city: string;
     country: string;
@@ -31,6 +35,10 @@ interface AuthContextValue {
   deleteUser: (id: string) => void;
   updateUserRole: (id: string, role: Role) => void;
   getPendingUsers: () => User[];
+  createUser: (payload: Omit<User, "id">) => User;
+  updateUser: (id: string, patch: Partial<Omit<User, "id" | "email">>) => User | undefined;
+  setUserDisabled: (id: string, disabled: boolean) => void;
+  resetPassword: (id: string, newPassword?: string) => { resetToken: string; link: string };
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -172,19 +180,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setLoading(false);
       return Promise.reject(new Error("Invalid credentials"));
     }
+    if (found.disabled) {
+      setLoading(false);
+      return Promise.reject(new Error("Account disabled by admin"));
+    }
     if (!found.verified && found.role !== "admin") {
       setLoading(false);
       return Promise.reject(new Error("Account not verified by admin yet"));
     }
-    localStorage.setItem(CURRENT_KEY, JSON.stringify(found));
-    setUser(found);
+    const updatedFound: User = { ...found, lastActiveAt: Date.now() };
+    const list = readUsers().map((u) => (u.id === updatedFound.id ? updatedFound : u));
+    persistUsers(list);
+    localStorage.setItem(CURRENT_KEY, JSON.stringify(updatedFound));
+    setUser(updatedFound);
     setLoading(false);
     // redirect to appropriate dashboard
-    if (found.role === "admin") navigate("/admin/dashboard");
-    else if (found.role === "student") navigate("/dashboard/student");
-    else if (found.role === "faculty") navigate("/dashboard/faculty");
+    if (updatedFound.role === "admin") navigate("/admin/dashboard");
+    else if (updatedFound.role === "student") navigate("/dashboard/student");
+    else if (updatedFound.role === "faculty") navigate("/dashboard/faculty");
     else navigate("/dashboard/alumni");
-    return found;
+    return updatedFound;
   };
 
   const logout = () => {
@@ -251,9 +266,41 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const getPendingUsers = () => readUsers().filter((u) => !u.verified);
 
+  const createUser = (payload: Omit<User, "id">) => {
+    const users = readUsers();
+    if (users.find((u) => u.email.toLowerCase() === payload.email.toLowerCase())) {
+      throw new Error("User already exists");
+    }
+    const created: User = { id: uid(), ...payload } as User;
+    users.push(created);
+    persistUsers(users);
+    return created;
+  };
+
+  const updateUser = (id: string, patch: Partial<Omit<User, "id" | "email">>) => {
+    const users = readUsers();
+    const next = users.map((u) => (u.id === id ? { ...u, ...patch } : u));
+    persistUsers(next);
+    const updated = next.find((u) => u.id === id);
+    const cur = JSON.parse(localStorage.getItem(CURRENT_KEY) || "null");
+    if (cur && cur.id === id && updated) localStorage.setItem(CURRENT_KEY, JSON.stringify(updated));
+    return updated;
+  };
+
+  const setUserDisabled = (id: string, disabled: boolean) => {
+    updateUser(id, { disabled });
+  };
+
+  const resetPassword = (id: string, newPassword?: string) => {
+    const token = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+    if (newPassword) updateUser(id, { password: newPassword });
+    const link = `${location.origin}/reset-password?token=${token}&id=${id}`;
+    return { resetToken: token, link };
+  };
+
   return (
     <AuthContext.Provider
-      value={{ user, loading, login, logout, register, getUsers, verifyUser, rejectUser, deleteUser, updateUserRole, getPendingUsers }}
+      value={{ user, loading, login, logout, register, getUsers, verifyUser, rejectUser, deleteUser, updateUserRole, getPendingUsers, createUser, updateUser, setUserDisabled, resetPassword }}
     >
       {children}
     </AuthContext.Provider>
