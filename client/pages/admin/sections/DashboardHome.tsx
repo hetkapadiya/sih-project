@@ -10,12 +10,18 @@ export default function DashboardHome() {
   const store = loadStore();
   const totalEvents = store.events.length;
   const totalDonations = store.donations.reduce((s, d) => s + d.amount, 0);
-  const openTickets = store.helpdesk.filter((t) => t.status !== "resolved").length;
+  const openTickets = store.helpdesk.filter(
+    (t) => t.status !== "resolved",
+  ).length;
 
   const stats = [
     { label: "Users", value: users.length, icon: Users },
     { label: "Events", value: totalEvents, icon: CalendarDays },
-    { label: "Donations", value: `₹${totalDonations.toLocaleString()}`, icon: HandCoins },
+    {
+      label: "Donations",
+      value: `₹${totalDonations.toLocaleString()}`,
+      icon: HandCoins,
+    },
     { label: "Open Tickets", value: openTickets, icon: ShieldCheck },
   ];
 
@@ -42,11 +48,15 @@ export default function DashboardHome() {
             {store.announcements.slice(0, 5).map((a) => (
               <li key={a.id} className="flex items-center justify-between">
                 <span className="font-medium">{a.title}</span>
-                <span className="text-xs text-muted-foreground">{new Date(a.createdAt).toLocaleString()}</span>
+                <span className="text-xs text-muted-foreground">
+                  {new Date(a.createdAt).toLocaleString()}
+                </span>
               </li>
             ))}
             {store.announcements.length === 0 && (
-              <div className="text-sm text-muted-foreground">No announcements yet.</div>
+              <div className="text-sm text-muted-foreground">
+                No announcements yet.
+              </div>
             )}
           </ul>
         </CardContent>
@@ -57,7 +67,9 @@ export default function DashboardHome() {
           <CardTitle>System Health</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="text-sm text-muted-foreground">All systems operational.</div>
+          <div className="text-sm text-muted-foreground">
+            All systems operational.
+          </div>
         </CardContent>
       </Card>
     </div>

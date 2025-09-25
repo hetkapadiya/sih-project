@@ -36,9 +36,15 @@ interface AuthContextValue {
   updateUserRole: (id: string, role: Role) => void;
   getPendingUsers: () => User[];
   createUser: (payload: Omit<User, "id">) => User;
-  updateUser: (id: string, patch: Partial<Omit<User, "id" | "email">>) => User | undefined;
+  updateUser: (
+    id: string,
+    patch: Partial<Omit<User, "id" | "email">>,
+  ) => User | undefined;
   setUserDisabled: (id: string, disabled: boolean) => void;
-  resetPassword: (id: string, newPassword?: string) => { resetToken: string; link: string };
+  resetPassword: (
+    id: string,
+    newPassword?: string,
+  ) => { resetToken: string; link: string };
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -77,7 +83,12 @@ function seedAdminIfNeeded() {
         password: "alumni123",
         role: "alumni",
         verified: true,
-        location: { city: "Mumbai", country: "India", lat: 19.076, lng: 72.8777 },
+        location: {
+          city: "Mumbai",
+          country: "India",
+          lat: 19.076,
+          lng: 72.8777,
+        },
       },
       {
         id: uid(),
@@ -86,7 +97,12 @@ function seedAdminIfNeeded() {
         password: "alumni123",
         role: "alumni",
         verified: true,
-        location: { city: "London", country: "United Kingdom", lat: 51.5074, lng: -0.1278 },
+        location: {
+          city: "London",
+          country: "United Kingdom",
+          lat: 51.5074,
+          lng: -0.1278,
+        },
       },
       {
         id: uid(),
@@ -95,7 +111,12 @@ function seedAdminIfNeeded() {
         password: "alumni123",
         role: "alumni",
         verified: true,
-        location: { city: "New York", country: "USA", lat: 40.7128, lng: -74.006 },
+        location: {
+          city: "New York",
+          country: "USA",
+          lat: 40.7128,
+          lng: -74.006,
+        },
       },
       {
         id: uid(),
@@ -104,7 +125,12 @@ function seedAdminIfNeeded() {
         password: "alumni123",
         role: "alumni",
         verified: true,
-        location: { city: "Tokyo", country: "Japan", lat: 35.6762, lng: 139.6503 },
+        location: {
+          city: "Tokyo",
+          country: "Japan",
+          lat: 35.6762,
+          lng: 139.6503,
+        },
       },
       {
         id: uid(),
@@ -113,10 +139,18 @@ function seedAdminIfNeeded() {
         password: "alumni123",
         role: "alumni",
         verified: true,
-        location: { city: "Sydney", country: "Australia", lat: -33.8688, lng: 151.2093 },
+        location: {
+          city: "Sydney",
+          country: "Australia",
+          lat: -33.8688,
+          lng: 151.2093,
+        },
       },
     ];
-    localStorage.setItem(USERS_KEY, JSON.stringify([admin, faculty, ...alumniSamples]));
+    localStorage.setItem(
+      USERS_KEY,
+      JSON.stringify([admin, faculty, ...alumniSamples]),
+    );
   } else {
     try {
       const list = JSON.parse(raw) as User[];
@@ -189,7 +223,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       return Promise.reject(new Error("Account not verified by admin yet"));
     }
     const updatedFound: User = { ...found, lastActiveAt: Date.now() };
-    const list = readUsers().map((u) => (u.id === updatedFound.id ? updatedFound : u));
+    const list = readUsers().map((u) =>
+      u.id === updatedFound.id ? updatedFound : u,
+    );
     persistUsers(list);
     localStorage.setItem(CURRENT_KEY, JSON.stringify(updatedFound));
     setUser(updatedFound);
@@ -219,7 +255,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       return Promise.reject(new Error("User already exists"));
     }
     const needsVerification = payload.role !== "admin";
-    const newUser: User = { id: uid(), ...payload, verified: !needsVerification } as User;
+    const newUser: User = {
+      id: uid(),
+      ...payload,
+      verified: !needsVerification,
+    } as User;
     users.push(newUser);
     persistUsers(users);
     localStorage.setItem(CURRENT_KEY, JSON.stringify(newUser));
@@ -237,11 +277,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const verifyUser = (id: string) => {
     const list = readUsers();
-    const updated = list.map((u) => (u.id === id ? { ...u, verified: true } : u));
+    const updated = list.map((u) =>
+      u.id === id ? { ...u, verified: true } : u,
+    );
     persistUsers(updated);
     // update current user if needed
     const cur = JSON.parse(localStorage.getItem(CURRENT_KEY) || "null");
-    if (cur && cur.id === id) localStorage.setItem(CURRENT_KEY, JSON.stringify({ ...cur, verified: true }));
+    if (cur && cur.id === id)
+      localStorage.setItem(
+        CURRENT_KEY,
+        JSON.stringify({ ...cur, verified: true }),
+      );
   };
 
   const rejectUser = (id: string) => {
@@ -261,14 +307,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const updated = list.map((u) => (u.id === id ? { ...u, role } : u));
     persistUsers(updated);
     const cur = JSON.parse(localStorage.getItem(CURRENT_KEY) || "null");
-    if (cur && cur.id === id) localStorage.setItem(CURRENT_KEY, JSON.stringify({ ...cur, role }));
+    if (cur && cur.id === id)
+      localStorage.setItem(CURRENT_KEY, JSON.stringify({ ...cur, role }));
   };
 
   const getPendingUsers = () => readUsers().filter((u) => !u.verified);
 
   const createUser = (payload: Omit<User, "id">) => {
     const users = readUsers();
-    if (users.find((u) => u.email.toLowerCase() === payload.email.toLowerCase())) {
+    if (
+      users.find((u) => u.email.toLowerCase() === payload.email.toLowerCase())
+    ) {
       throw new Error("User already exists");
     }
     const created: User = { id: uid(), ...payload } as User;
@@ -277,13 +326,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return created;
   };
 
-  const updateUser = (id: string, patch: Partial<Omit<User, "id" | "email">>) => {
+  const updateUser = (
+    id: string,
+    patch: Partial<Omit<User, "id" | "email">>,
+  ) => {
     const users = readUsers();
     const next = users.map((u) => (u.id === id ? { ...u, ...patch } : u));
     persistUsers(next);
     const updated = next.find((u) => u.id === id);
     const cur = JSON.parse(localStorage.getItem(CURRENT_KEY) || "null");
-    if (cur && cur.id === id && updated) localStorage.setItem(CURRENT_KEY, JSON.stringify(updated));
+    if (cur && cur.id === id && updated)
+      localStorage.setItem(CURRENT_KEY, JSON.stringify(updated));
     return updated;
   };
 
@@ -292,7 +345,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const resetPassword = (id: string, newPassword?: string) => {
-    const token = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+    const token =
+      Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
     if (newPassword) updateUser(id, { password: newPassword });
     const link = `${location.origin}/reset-password?token=${token}&id=${id}`;
     return { resetToken: token, link };
@@ -300,7 +354,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, login, logout, register, getUsers, verifyUser, rejectUser, deleteUser, updateUserRole, getPendingUsers, createUser, updateUser, setUserDisabled, resetPassword }}
+      value={{
+        user,
+        loading,
+        login,
+        logout,
+        register,
+        getUsers,
+        verifyUser,
+        rejectUser,
+        deleteUser,
+        updateUserRole,
+        getPendingUsers,
+        createUser,
+        updateUser,
+        setUserDisabled,
+        resetPassword,
+      }}
     >
       {children}
     </AuthContext.Provider>

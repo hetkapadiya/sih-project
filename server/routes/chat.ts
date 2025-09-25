@@ -5,11 +5,26 @@ let client: MongoClient | null = null;
 let db: Db | null = null;
 
 const DEFAULT_FAQS = [
-  { q: "how to login", a: "Go to Admin or Alumni login and use your registered email and password. If you forgot, use the reset link on the login page." },
-  { q: "update profile", a: "Open the Register page to update your details, or visit your dashboard and edit profile." },
-  { q: "upcoming events", a: "See the Upcoming Events section on the homepage or Events in the navigation." },
-  { q: "donation", a: "Visit the Donate page to contribute to scholarships and funds." },
-  { q: "mentorship", a: "See the Mentorship page to become a mentor or find one." },
+  {
+    q: "how to login",
+    a: "Go to Admin or Alumni login and use your registered email and password. If you forgot, use the reset link on the login page.",
+  },
+  {
+    q: "update profile",
+    a: "Open the Register page to update your details, or visit your dashboard and edit profile.",
+  },
+  {
+    q: "upcoming events",
+    a: "See the Upcoming Events section on the homepage or Events in the navigation.",
+  },
+  {
+    q: "donation",
+    a: "Visit the Donate page to contribute to scholarships and funds.",
+  },
+  {
+    q: "mentorship",
+    a: "See the Mentorship page to become a mentor or find one.",
+  },
 ];
 
 async function getDb() {
@@ -40,14 +55,25 @@ export const postMessage: RequestHandler = async (req, res) => {
     try {
       const r = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
-        body: JSON.stringify({ model: "gpt-4o-mini", messages: [{ role: "system", content: "You are an alumni portal helper." }, { role: "user", content: message }] }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: "gpt-4o-mini",
+          messages: [
+            { role: "system", content: "You are an alumni portal helper." },
+            { role: "user", content: message },
+          ],
+        }),
       });
       const j = await r.json();
       answer = j.choices?.[0]?.message?.content || "";
     } catch {}
   }
-  if (!answer) answer = "I couldn't find an exact answer. You can leave your query and contact, and our team will follow up.";
+  if (!answer)
+    answer =
+      "I couldn't find an exact answer. You can leave your query and contact, and our team will follow up.";
 
   const log = { message, answer, at: Date.now() };
   const logs = await collection("chat_logs");
@@ -57,9 +83,14 @@ export const postMessage: RequestHandler = async (req, res) => {
 };
 
 export const postLeave: RequestHandler = async (req, res) => {
-  const { name, email, message } = req.body as { name: string; email: string; message: string };
+  const { name, email, message } = req.body as {
+    name: string;
+    email: string;
+    message: string;
+  };
   const queries = await collection("chat_queries");
-  if (queries) await queries.insertOne({ name, email, message, at: Date.now() } as any);
+  if (queries)
+    await queries.insertOne({ name, email, message, at: Date.now() } as any);
   res.json({ ok: true });
 };
 
