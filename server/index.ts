@@ -20,5 +20,12 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
 
+  // Chatbot API
+  app.get("/api/chat/faqs", getFaqs);
+  app.post("/api/chat/faqs", upsertFaq);
+  app.post("/api/chat/message", postMessage);
+  app.post("/api/chat/leave", postLeave);
+  app.get("/api/chat/logs", getLogs);
+
   return app;
 }
