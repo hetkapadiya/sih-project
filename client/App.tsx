@@ -16,6 +16,8 @@ import Gallery from "./pages/Gallery";
 import Donate from "./pages/Donate";
 import Mentorship from "./pages/Mentorship";
 import Register from "./pages/Register";
+import AdminRedirect from "./pages/AdminRedirect";
+import ChatbotWidget from "./components/ChatbotWidget";
 import AdminLogin from "./pages/AdminLogin";
 import DashboardAlumni from "./pages/DashboardAlumni";
 import DashboardStudent from "./pages/DashboardStudent";
@@ -46,6 +48,7 @@ const App = () => (
               <Route path="/mentorship" element={<Mentorship />} />
               <Route path="/faculty-login" element={<FacultyLogin />} />
               <Route path="/admin-login" element={<AdminLogin />} />
+              <Route path="/admin/redirect" element={<AdminRedirect />} />
               <Route path="/register" element={<Register />} />
 
               {/* Protected dashboards */}
@@ -95,6 +98,7 @@ const App = () => (
             </Routes>
           </main>
           <Footer />
+          <ChatbotWidget />
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>

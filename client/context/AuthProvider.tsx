@@ -195,7 +195,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setUser(updatedFound);
     setLoading(false);
     // redirect to appropriate dashboard
-    if (updatedFound.role === "admin") navigate("/admin/dashboard");
+    if (updatedFound.role === "admin") navigate("/admin/redirect");
     else if (updatedFound.role === "student") navigate("/dashboard/student");
     else if (updatedFound.role === "faculty") navigate("/dashboard/faculty");
     else navigate("/dashboard/alumni");
@@ -226,7 +226,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setUser(newUser);
     setLoading(false);
     // redirect
-    if (newUser.role === "admin") navigate("/admin/dashboard");
+    if (newUser.role === "admin") navigate("/admin/redirect");
     else if (newUser.role === "student") navigate("/dashboard/student");
     else if (newUser.role === "faculty") navigate("/dashboard/faculty");
     else navigate("/dashboard/alumni");
